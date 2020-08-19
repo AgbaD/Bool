@@ -6,7 +6,6 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from .models import User
 
 def password_gen(password):
-    pass
+    password_hash = generate_password_hash(password)
+    return password_hash
 
-def password_verify(password):
-    pass

@@ -7,3 +7,7 @@ from . import main
 from .. import db
 from ..models import Coin_account, Cash_account,User
 from ..generator import *
+
+@main.route('/')
+def index():
+    render_template('index.html')
