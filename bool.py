@@ -13,3 +13,5 @@ migrate = Migrate(app, db)
 def make_shell_context():
     return dict(db=db, app=app, User=User, Cash_account=Cash_account, Coin_account=Coin_account)
 
+if __name__ == '__main__':
+    app.run(debug=True)
