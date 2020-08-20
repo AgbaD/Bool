@@ -11,3 +11,12 @@ from ..generator import *
 @main.route('/')
 def index():
     render_template('index.html')
+
+
+"""Authentication"""
+@main.route('/login', methods=['GET','POST'])
+def login():
+    if method == 'POST':
+        pass
+    return render_template('login.html')
+
