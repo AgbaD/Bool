@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <!-- favicon -->
+        <link rel="icon" href="../static/images/favicon.png" type="image/png" />
+
         <!-- meta -->
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -27,9 +30,6 @@
         <link rel="stylesheet" href="../static/base.css" type='text/css' />
         {% block css %}{% endblock %}
         
-        <!-- favicon -->
-        <link rel="icon" type="image/png" href="../static/images/favicon.png" />
-        
         <title>
             Bool | {% block title %}{% endblock %}
         </title>
@@ -37,8 +37,8 @@
     <body>
         <div class='header'>
             <h3>Disclaimer:</h3>
-            <p>This is just to solidyfy my newly acquired knowledge. I might mess
-                around and make it into something real later. 
+            <p>This is just an application of my newly acquired knowledge. 
+                I might mess around and make it into something real later. 
             </p>
             <p>Cheers!
                 <spam id='header'>PS: Refer me Jobs % </spam>
@@ -47,18 +47,26 @@
         <div class='sec_header'>
             <img class='logo' src='../static/images/logo.png' 
             alt='logo' />
-            <nav>
-                <ul>
-                    <li><a href='#aboutus'>About Us</a></li>
-                    <li><a href='#'>Help Center</a></li>
-                    <li><a href='#'>Hire Us</a></li>
-                    <li><a href='#'></a></li>
-                    <li><a href='#'></a></li>
-                    <li><a href='#'></a></li>
-                    <li><a href='#'></a></li>
-                    <li><a href='#'></a></li>
-                    <li><a href='#'></a></li>
-                </ul>
+            <nav class='dropdown'>
+                <p>Dropdown</p>
+                <div class='dropdown-content'>
+                    <ul>
+                        {% block nav %}{% endblock %}
+                        <li><a href='#aboutus'>About Us</a></li>
+                        <li><a href='#'>Help Center</a></li>
+                        <li><a href='#'>Hire Us</a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                        <li class='extra'><a href='#'></a></li>
+                    </ul>
+                </div>
             </nav>
         </div>
     </body>
