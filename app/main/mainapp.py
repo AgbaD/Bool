@@ -17,6 +17,11 @@ def index():
 @main.route('/login', methods=['GET','POST'])
 def login():
     if method == 'POST':
-        pass
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = User.query.filter_by(email=email).first()
+        if user and validate_pass(user, password):
+            return redirect(url_for('index.html'))
+        flash('Invalid Username or Password!')
     return render_template('login.html')
 

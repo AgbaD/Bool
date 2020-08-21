@@ -9,3 +9,5 @@ def password_gen(password):
     password_hash = generate_password_hash(password)
     return password_hash
 
+def validate_pass(user, password):
+    return check_password_hash(user.password_hash, password)
