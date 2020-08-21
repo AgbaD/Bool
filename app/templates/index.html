@@ -10,6 +10,22 @@ Welcome
 
 <!--Landing Page-->
 
+{% block nav %}
+<div class='sec_nav'>
+    <ul>
+        <li><a href='#'>Home</a></li>
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('.logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('.login') }}">Login</a></li>
+        <li><a href="#">Create Account</a></li>
+        {% endif %}
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Terms of Service</a></li>
+    </ul>
+</div>
+{% endblock %}
+
 {% block content %}
 
 {% endblock %}

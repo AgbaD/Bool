@@ -1,3 +1,22 @@
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.67%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.67%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.67%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.67%;}
+.col-12 {width: 100%;}
+
+@media (max-width: 767.98px) {
+    [class='col-'] {
+        width: 100%;
+    }
+}
+
 body {
     font-family: acumin-pro, sans-serif;
 }
@@ -66,31 +85,6 @@ nav ul li a:hover {
 
 nav ul li.extra a:hover {
     background-color: rgb(221, 79, 5);
-}
-
-.sec_nav {
-    float: left;
-    margin-left: 7%;
-    margin-top: 3%;
-}
-
-.sec_nav ul li {
-    display: inline;
-    padding: 10px;   
-}
-
-.sec_nav ul li a {
-    text-decoration: none;
-    color: rgb(66, 74, 82);;
-    padding: 10px;
-    font-weight: bold;
-}
-
-.sec_nav ul li a:hover {
-    color: rgb(221, 79, 5);
-    border-bottom-color: rgb(221, 79, 5);
-    border-bottom-style: solid;
-    border-bottom-width: 3px;
 }
 
 /* for mobile and tablets */
