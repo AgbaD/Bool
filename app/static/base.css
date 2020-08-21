@@ -68,6 +68,33 @@ nav ul li.extra a:hover {
     background-color: rgb(221, 79, 5);
 }
 
+.sec_nav {
+    float: left;
+    margin-left: 7%;
+    margin-top: 3%;
+}
+
+.sec_nav ul li {
+    display: inline;
+    padding: 10px;   
+}
+
+.sec_nav ul li a {
+    text-decoration: none;
+    color: rgb(66, 74, 82);;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.sec_nav ul li a:hover {
+    color: rgb(221, 79, 5);
+    border-bottom-color: rgb(221, 79, 5);
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}
+
+/* for mobile and tablets */
+
 .dropdown p {
     display: none;  
 }
@@ -96,7 +123,7 @@ nav ul li.extra a:hover {
     .dropdown-content {
         display: none;
         position: absolute;
-        background-color: #f9f9f9;
+        background-color: rgb(221, 79, 5);
         min-width: 200px;
         min-height: 30px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -109,7 +136,11 @@ nav ul li.extra a:hover {
         display: block;
     }
 
-    .dropdown-content a:hover {text-decoration: underline;}
+    .dropdown-content a:hover {
+        text-decoration: underline;
+        background-color: rgb(221, 79, 5);
+
+    }
 
     .dropdown:hover .dropdown-content {
         display: block;
