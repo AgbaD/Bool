@@ -7,6 +7,7 @@ from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 
 class Cash_account(db.Model, UserMixin):
+    __tablename__ = 'cash_account'
     _id = db.Column(db.Integer, primary_key=True)
     _cash = db.Column(db.Float)
 
@@ -15,6 +16,7 @@ class Cash_account(db.Model, UserMixin):
         self._cash = 130.00
 
 class Coin_account(db.Model, UserMixin):
+    __tablename__ = 'coin_account'
     _id = db.Column(db.String(128), primary_key=True)
     _bitcoin = db.Column(db.Float)
 
@@ -23,6 +25,7 @@ class Coin_account(db.Model, UserMixin):
         self._bitcoin = 0.00001
 
 class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     password_hash = db.Column(db.String(128))

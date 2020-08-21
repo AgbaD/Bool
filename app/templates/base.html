@@ -36,7 +36,7 @@
     </head>
     <body>
         <div class='header'>
-            <h3>Disclaimer:</h3>
+            <h3>Important Notice:</h3>
             <p>This is just an application of my newly acquired knowledge. 
                 I might mess around and make it into something real later. 
             </p>
@@ -51,10 +51,11 @@
                 <p>Dropdown</p>
                 <div class='dropdown-content'>
                     <ul>
-                        {% block nav %}{% endblock %}
                         <li><a href='#aboutus'>About Us</a></li>
+                        <li><a href='#'>General Information</a></li>
+                        <li><a href='#'>FAQ</a></li>
                         <li><a href='#'>Help Center</a></li>
-                        <li><a href='#'>Hire Us</a></li>
+                        <li><a href='#'>Hire</a></li>
                         <li class='extra'><a href='#'></a></li>
                         <li class='extra'><a href='#'></a></li>
                         <li class='extra'><a href='#'></a></li>
@@ -68,6 +69,8 @@
                     </ul>
                 </div>
             </nav>
+            {% block nav %}{% endblock %}
         </div>
+        {% block content %}{% endblock %}
     </body>
 </html>
