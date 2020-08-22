@@ -1,0 +1,84 @@
+.sec_nav {
+    float: left;
+    margin-left: 7%;
+    margin-top: 3%;
+}
+
+.sec_nav ul li {
+    display: inline;
+    padding: 10px;   
+}
+
+.sec_nav ul li a {
+    text-decoration: none;
+    color: rgb(66, 74, 82);
+    padding: 10px;
+    font-weight: bold;
+}
+
+.sec_nav ul li a:hover {
+    color: rgb(221, 79, 5);
+    border-bottom-color: rgb(221, 79, 5);
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}
+
+h1.login {
+    color: rgb(66, 74, 82);
+    margin-top: 5%;
+    padding-left: 3%;
+    padding-bottom: 1%;
+    border-bottom-color: rgb(224, 225, 226);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+div.form-section {
+    margin-left: 4%
+}
+
+div.form-section p {
+    color: rgb(66, 74, 82);
+}
+
+input {
+    font-size: 120%;
+    color: #5a5854;
+    background-color: #f2f2f2;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    padding: 5px 5px 5px 30px;
+    background-repeat: no-repeat;
+    background-position: 8px 9px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+input#remember {
+    display:inline-block;
+    margin-bottom: 17px;
+}
+
+input#submit {
+    padding-left: 5px;
+}
+
+input:focus {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(221, 79, 5);
+}
+
+div.col-4 {
+    float: left;
+    
+}
+
+div.col-7 {
+    margin-left: 5%;
+    float: left;
+}
+
+div.col-7 h1 {
+    color: rgb(221, 79, 5);
+    padding-left: 3%;
+}

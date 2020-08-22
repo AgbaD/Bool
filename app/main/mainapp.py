@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Author:   @BlankGodd_
 
-from flask import render_template, redirect, url_for, abort, flash
+from flask import *
 from flask_login import login_required, current_user
 from flask_login import login_user, logout_user
 from . import main
@@ -17,7 +17,7 @@ def index():
 """Authentication"""
 @main.route('/login', methods=['GET','POST'])
 def login():
-    if method == 'POST':
+    if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
         user = User.query.filter_by(email=email).first()
@@ -39,7 +39,7 @@ def create_acc():
 
 @main.route('/register/cash', methods=['GET','POST'])
 def register_cash():
-    if method == 'POST':
+    if request.method == 'POST':
         firstname = request.form.get('firstname')
         lastname = request.form.get('lastname')
         email = request.form.get('email')
@@ -82,7 +82,7 @@ def register_cash():
 
 @main.route('/register/coin', methods=['GET','POST'])
 def register_coin():
-    if method == 'POST':
+    if request.method == 'POST':
         firstname = request.form.get('firstname')
         lastname = request.form.get('lastname')
         email = request.form.get('email')
@@ -143,7 +143,7 @@ def create_coin_acc(user_id):
     # check db to see if its unique
     que = Coin_account.query.filter_by(_id=acc_id).first()
     while que:
-        acc_id = gen_coin_id(user_id))
+        acc_id = gen_coin_id(user_id)
         que = Coin_account.query.filter_by(_id=acc_id).first()
     # add account to db if unique
     acc = Coin_account(_id=acc_id)
