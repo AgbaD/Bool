@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="../static/create_acc.css" type='text/css' />
+{% endblock %}
+
+{% block title %}
+Create Account
+{% endblock %}
+
+<!--Create Account-->
+
+{% block nav %}
+<div class='sec_nav'>
+    <ul>
+        <li><a href="{{ url_for('.index') }}">Home</a></li>
+        <li><a href="{{ url_for('.login') }}">Login</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Terms of Service</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="one">
+    <div class='col-4'>
+            <img src='../static/images/cash.jpg' alt='picture of money' />
+    </div>
+    <div class='col-7' id='cash'>
+        <h1 class='ca'>Cash Account</h1>
+        <p>This will contain some general information about the cash
+            account and a little bit more. Now I'm ganna put some jargon
+            here just to fill up space.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit.
+        </p>
+        <a href="{{ url_for('.register_cash') }}">Proceed</a>
+    </div>
+</div>
+<div class='two'>
+    <div class='col-4'>
+            <img src='../static/images/coin.jpg' alt='picture of crypto' ./>
+    </div>
+    <div class='col-7' id='coin'>
+        <h1 class='ca'>Coin Account</h1>
+        <p>This will contain some general information about the coin(cryptocurrency)
+            account and a little bit more. Now I'm ganna put some jargon
+            here just to fill up space.
+        </p>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit.
+        </p>
+        <a href="{{ url_for('.register_coin') }}">Proceed</a>
+    </div>
+</div>
+{% endblock %}

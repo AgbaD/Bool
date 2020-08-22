@@ -1,0 +1,69 @@
+.sec_nav {
+    float: left;
+    margin-left: 7%;
+    margin-top: 3%;
+}
+
+.sec_nav ul li {
+    display: inline;
+    padding: 10px;   
+}
+
+.sec_nav ul li a {
+    text-decoration: none;
+    color: rgb(66, 74, 82);
+    padding: 10px;
+    font-weight: bold;
+}
+
+.sec_nav ul li a:hover {
+    color: rgb(221, 79, 5);
+    border-bottom-color: rgb(221, 79, 5);
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}
+
+div#cash, div#coin {
+    float:left;
+    clear: right;
+    margin-left: 3%;
+    height:350px;
+}
+
+.one img, .two img {
+    margin-top: 4%;
+    margin-left: 3%;
+    height:300px;
+    float: left;
+}
+
+h1.ca {
+    color: rgb(66, 74, 82);
+    padding-left: 3%;
+    padding-bottom: 1%;
+    border-bottom-color: rgb(224, 225, 226);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+}
+
+p {
+    margin-left: 4%
+}
+
+div.one a, div.two a {
+    margin-left: 5%;
+    margin-top: 1%;
+    text-decoration: none;
+    padding: 0.5%;
+    color: rgb(0, 119, 204);
+}
+
+div.one a:hover, div.two a:hover {
+    color: rgb(221, 79, 5);
+}
+
+div#coin {
+    margin-bottom: 4%;
+}
+
+

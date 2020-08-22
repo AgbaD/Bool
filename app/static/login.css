@@ -70,12 +70,12 @@ input:focus {
 
 div.col-4 {
     float: left;
-    
 }
 
 div.col-7 {
     margin-left: 5%;
     float: left;
+    margin-bottom: 3%;
 }
 
 div.col-7 h1 {

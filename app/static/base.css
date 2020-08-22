@@ -28,6 +28,7 @@
 
 body {
     font-family: acumin-pro, sans-serif;
+    color: rgb(36, 39, 41);
 }
 
 .header {
@@ -94,6 +95,17 @@ nav ul li a:hover {
 
 nav ul li.extra a:hover {
     background-color: rgb(221, 79, 5);
+}
+
+footer {
+    text-align: center;
+    clear: both;
+    border-top-color: rgba(221, 79, 5, 0.1);
+    background-color: rgba(221, 79, 5, 0.1);
+    padding: 0.5%;
+    margin-left: -1%;
+    margin-right: -1%;
+    margin-bottom: -1%;
 }
 
 /* for mobile and tablets */
