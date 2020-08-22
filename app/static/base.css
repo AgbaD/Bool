@@ -87,11 +87,6 @@ nav ul li.extra a:hover {
     background-color: rgb(221, 79, 5);
 }
 
-.flash {
-    border: thin solid rgba(236, 174, 140, 0.05);
-    padding: 13px;
-}
-
 /* for mobile and tablets */
 
 .dropdown p {

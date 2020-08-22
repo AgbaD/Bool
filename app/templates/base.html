@@ -72,12 +72,6 @@
             </nav>
             {% block nav %}{% endblock %}
         </div>
-        {% for message in get_flashed_messages() %}
-        <div class="flash">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
-        </div>
-        {% endfor %}
         {% block content %}{% endblock %}
     </body>
 </html>
