@@ -12,8 +12,31 @@ def password_gen(password):
 def validate_pass(user, password):
     return check_password_hash(user.password_hash, password)
 
-def gen_cash_id():
-    pass
+def gen_cash_id(user_id):
+    cash_id = []
+    while len(cash_id) < 10:
+        hashh = generate_password_hash(user_id)
+        for i in hashh:
+            if isinstance(i,int):
+                cash_id.append(i)
+    return ''.join(cash_id)
 
-def gen_coin_id():
-    pass
+def gen_coin_id(user_id):
+    return generate_password_hash(user_id)
+
+def gen_confirm_token(user):
+    s = Serializer(current_app.config['SECRET_KEY'], expiration=3600)
+    return s.dumps({'confirm': user.id})
+
+def confirm_token(user, token):
+    s = Serializer(current_app.config['SECRET_KEY'])
+    try:
+        data = s.loads(token)
+    except:
+        return False
+    if data.get('confirm') != user.id:
+        return False
+    self.confirmed = True
+    db.session.add(self)
+    db.session.commit()
+    return True

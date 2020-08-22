@@ -13,7 +13,7 @@ class Cash_account(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         super(Account, self).__init__(**kwargs)
-        self._cash = 130.00
+        self._cash = 30.00
 
 class Coin_account(db.Model, UserMixin):
     __tablename__ = 'coin_account'
@@ -22,7 +22,7 @@ class Coin_account(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         super(Account, self).__init__(**kwargs)
-        self._bitcoin = 0.000001
+        self._bitcoin = 0.000000001
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
