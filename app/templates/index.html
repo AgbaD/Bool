@@ -18,7 +18,7 @@ Welcome
         <li><a href="{{ url_for('.logout') }}">Logout</a></li>
         {% else %}
         <li><a href="{{ url_for('.login') }}">Login</a></li>
-        <li><a href="#">Create Account</a></li>
+        <li><a href="{{ url_for('.create_acc') }}">Create Account</a></li>
         {% endif %}
         <li><a href="#">Security</a></li>
         <li><a href="#">Terms of Service</a></li>

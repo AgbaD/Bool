@@ -33,6 +33,10 @@ def logout():
     logout_user()
     return redirect(url_for('.index'))
 
+@main.route('/create_acc')
+def create_acc():
+    return render_template('create_acc.html')
+
 @main.route('/register/cash', methods=['GET','POST'])
 def register_cash():
     if method == 'POST':
@@ -158,6 +162,12 @@ def confirm(token):
         flash('The confirmation link is invalid or has expired.')
     return redirect(url_for('.profile'))
 
-# confirm account from profile
+# confirm account from profile view func
 
 """Done with Authentication"""
+
+"""Profiling"""
+@main.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', user=current_user)
