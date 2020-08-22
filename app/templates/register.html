@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="../static/register.css" type='text/css' />
+{% endblock %}
+
+{% block title %}
+Login
+{% endblock %}
+
+<!-- Register page -->
+
+{% block nav %}
+<div class='sec_nav'>
+    <ul>
+        <li><a href="{{ url_for('.index') }}">Home</a></li>
+        <li><a href="{{ url_for('.login') }}">Login</a></li>
+        <li><a href="#">Security</a></li>
+        <li><a href="#">Terms of Service</a></li>
+    </ul>
+</div>
+{% endblock %}
+
+{% block content %}
+<br />
+<div class='col-7'>
+    <h1 class='reg col-4'>Register</h1>
+    <div class='form-section'>
+        <form method="post" action="">
+            {% for message in get_flashed_messages() %}
+            <div class="flash">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+            </div>
+            {% endfor %}
+            <div class="form">
+            <label for='fname'>Firstname</label>
+            <input id='fname' name='firstname' type='text' required='required' /><br />
+            <label for='lname'>Lastname</label>
+            <input id='lname' name='lastname' type='text' required='required' /><br />
+            <label for='email'>E-mail</label>
+            <input id='email' name='email' type='email' required='required' /><br />
+            <label for='password'>Password</label>
+            <input id='password' name='password' type='password' required='required' /><br />
+            <label for='cpassword'>Confirm Password</label>
+            <input id='cpassword' name='cpassword' type='password' required='required' /><br />
+            <label for='phone'>Phone</label>
+            <input id='phone' name='phone' type='text' required='required' /><br />
+            <label for='location'>Location</label>
+            <textarea rows="4" cols="40" id="location" 
+                name="location"></textarea><br />
+            <input id='submit' type="submit" name="submit" value="Register" />
+            </div>
+        </form>
+    </div>
+</div>
+<div class='col-4'>
+    <h1>Media</h1>
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+        enim ad minim veniam, quis nostrud exercitation ullamco laboris
+        nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+        reprehenderit in voluptate velit.
+    </p>
+    <p>
+        Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+        sint occaecat cupidatat non proident, sunt in culpa qui officia
+        deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet,
+        consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+        labore et dolore magna aliqua.
+    </p>
+</div>
+
+
+{% endblock %}
