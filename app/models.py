@@ -22,7 +22,7 @@ class Coin_account(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         super(Account, self).__init__(**kwargs)
-        self._bitcoin = 0.00001
+        self._bitcoin = 0.000001
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -31,7 +31,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     phone = db.Column(db.Integer)
     confirmed = db.Column(db.Boolean, default=False)
-    name = db.Column(db.String(64))
+    fullname = db.Column(db.String(64))
     location = db.Column(db.String(64))
     cash_id = db.Column(db.Integer)
     coin_id = db.Column(db.String(128))

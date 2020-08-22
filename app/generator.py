@@ -11,3 +11,9 @@ def password_gen(password):
 
 def validate_pass(user, password):
     return check_password_hash(user.password_hash, password)
+
+def gen_cash_id():
+    pass
+
+def gen_coin_id():
+    pass
