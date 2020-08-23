@@ -9,6 +9,8 @@ from .. import db
 from ..models import Coin_account, Cash_account,User
 from ..generator import *
 
+import re
+
 @main.route('/')
 def index():
     return render_template('index.html')
