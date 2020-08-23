@@ -36,7 +36,8 @@ def confirm_token(user, token):
         return False
     if data.get('confirm') != user.id:
         return False
-    self.confirmed = True
-    db.session.add(self)
+    user.confirmed = True
+    db.session.add(user)
     db.session.commit()
     return True
+
