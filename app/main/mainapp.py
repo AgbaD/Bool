@@ -74,7 +74,7 @@ def register_cash():
             db.session.commit()
             
             # create confirmation token
-            token = get_confirm_token(user)
+            token = gen_confirm_token(user)
             # send email
             flash('Check email to confirm account!')
             return redirect(url_for('.login'))
@@ -117,7 +117,7 @@ def register_coin():
             db.session.commit()
             
             # create confirmation token
-            token = get_confirm_token(user)
+            token = gen_confirm_token(user)
             # send email
             flash('Check email to confirm account!')
             return redirect(url_for('.login'))

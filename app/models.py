@@ -12,7 +12,7 @@ class Cash_account(db.Model, UserMixin):
     _cash = db.Column(db.Float)
 
     def __init__(self, **kwargs):
-        super(Account, self).__init__(**kwargs)
+        super(Cash_account, self).__init__(**kwargs)
         self._cash = 30.00
 
 class Coin_account(db.Model, UserMixin):
@@ -21,7 +21,7 @@ class Coin_account(db.Model, UserMixin):
     _bitcoin = db.Column(db.Float)
 
     def __init__(self, **kwargs):
-        super(Account, self).__init__(**kwargs)
+        super(Coin_account, self).__init__(**kwargs)
         self._bitcoin = 0.000000001
 
 class User(UserMixin, db.Model):
