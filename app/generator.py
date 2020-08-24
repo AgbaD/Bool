@@ -18,21 +18,17 @@ def gen_cash_id(user_id):
     user_id = str.encode(str(user_id))
     while len(cash_id) < 10:
         hashh = generate_password_hash(user_id)
-        idd = []
-        for i in hashh:
+        v = len(hashh)
+        u = v-15
+        for j in range(u,v):
             try:
-                idd.append(int(i))
+                cash_id.append(int(hashh[j]))
             except:
                 pass
-        u = len(idd)
-        print(u)
-        if u + len(cash_id) > 10:
-            a = (u + len(cash_id)) - 10
-            b = u-a
-            for j in range(b):
-                cash_id.append(idd[j])
-        else:
-            cash_id.extend(idd)
+    if len(cash_id) > 10:
+        a = len(cash_id) - 10
+        for g in range(a):
+            del cash_id[-g]
     cash_id = [str(i) for i in cash_id]
     return ''.join(cash_id)
 

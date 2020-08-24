@@ -22,3 +22,7 @@
     border-bottom-style: solid;
     border-bottom-width: 3px;
 }
+
+.sec_nav ul li a:active {
+    color: rgb(221, 79, 5);
+}
