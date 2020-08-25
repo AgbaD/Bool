@@ -11,7 +11,8 @@ migrate = Migrate(app, db)
 
 @app.shell_context_processor
 def make_shell_context():
-    return dict(db=db, app=app, User=User, Account=Account)
+    return dict(db=db, app=app, User=User, Account=Account,
+        Savings=Savings, Plans=Plans)
 
 if __name__ == '__main__':
     app.run()
