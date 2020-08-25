@@ -6,23 +6,14 @@ from flask import current_app, request
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
 
-class Cash_account(db.Model, UserMixin):
-    __tablename__ = 'cash_account'
+class Account(db.Model, UserMixin):
+    __tablename__ = 'account'
     _id = db.Column(db.Integer, primary_key=True)
-    _cash = db.Column(db.Float)
+    _amount = db.Column(db.Float)
 
     def __init__(self, **kwargs):
-        super(Cash_account, self).__init__(**kwargs)
-        self._cash = 30.00
-
-class Coin_account(db.Model, UserMixin):
-    __tablename__ = 'coin_account'
-    _id = db.Column(db.String(128), primary_key=True)
-    _bitcoin = db.Column(db.Float)
-
-    def __init__(self, **kwargs):
-        super(Coin_account, self).__init__(**kwargs)
-        self._bitcoin = 0.000000001
+        super(Account, self).__init__(**kwargs)
+        self._amount = 30.00
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -33,8 +24,7 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
     fullname = db.Column(db.String(64))
     location = db.Column(db.String(64))
-    cash_id = db.Column(db.Integer)
-    coin_id = db.Column(db.String(128))
+    acc_id = db.Column(db.Integer)
     is_admin = db.Column(db.Boolean, default=False)
 
     def __init__(self, **kwargs):
@@ -44,6 +34,17 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.email
+
+class Plans(UserMixin, db.Model):
+    __tablename__ = 'plans'
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(64))
+    title = db.Column(db.String(64))
+    rate = db.Column(db.Integer)
+    total = db.Column(db.Integer)
+
+
+
 
 @login_manager.user_loader
 def load_user(user_id):

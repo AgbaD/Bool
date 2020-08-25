@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 from flask_login import login_user, logout_user
 from . import main
 from .. import db
-from ..models import Coin_account, Cash_account,User
+from ..models import Account, User
 from ..generator import *
 
 import re
@@ -33,14 +33,10 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return render_template('index.html')
+    return redirect(url_for('.index'))
 
-@main.route('/create_acc')
-def create_acc():
-    return render_template('create_acc.html')
-
-@main.route('/register/cash', methods=['GET','POST'])
-def register_cash():
+@main.route('/register', methods=['GET','POST'])
+def register():
     if request.method == 'POST':
         firstname = request.form.get('firstname')
         lastname = request.form.get('lastname')
@@ -67,9 +63,9 @@ def register_cash():
                     phone=phone, location=location)
             db.session.add(user)
             db.session.commit()
-            # open cash account and get id
-            cash_id = create_cash_acc(user.id)
-            user.cash_id = cash_id
+            # open account and get id
+            acc_id = create_acc(user.id)
+            user.acc_id = acc_id
             db.session.add(user)
             db.session.commit()
             
@@ -82,73 +78,17 @@ def register_cash():
         return render_template('register.html')
     return render_template('register.html')
 
-@main.route('/register/coin', methods=['GET','POST'])
-def register_coin():
-    if request.method == 'POST':
-        firstname = request.form.get('firstname')
-        lastname = request.form.get('lastname')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        cpassword = request.form.get('cpassword')
-        phone = request.form.get('phone')
-        location = request.form.get('location')
 
-        #add schema validation here
-
-        if User.query.filter_by(email=email).first():
-            flash("Email already registered!")
-        elif password != cpassword:
-            flash("Passwords do not match!")
-        elif not re.fullmatch(r"([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)", email):
-            flash('Enter valid email')
-        # check if phone is valid
-        else:
-            # hash password
-            password = password_gen(password)
-            user = User(email=email,password_hash=password,
-                    fullname=firstname+" "+lastname,
-                    phone=phone, location=location)
-            db.session.add(user)
-            db.session.commit()
-            # open cash account and get id
-            coin_id = create_coin_acc(user.id)
-            user.coin_id = coin_id
-            db.session.add(user)
-            db.session.commit()
-            
-            # create confirmation token
-            token = gen_confirm_token(user)
-            # send email
-            flash('Check email to confirm account!')
-            return redirect(url_for('.login'))
-
-        return render_template('register.html')
-    return render_template('register.html')
-
-def create_cash_acc(user_id):
-    # generate cash account id
-    acc_id = int(gen_cash_id(user_id))
+def create_acc(user_id):
+    # generate account id
+    acc_id = int(gen_acc_id(user_id))
     # check db to see if its unique
     que = Cash_account.query.filter_by(_id=acc_id).first()
     while que:
-        acc_id = int(gen_cash_id(user_id))
+        acc_id = int(gen_acc_id(user_id))
         que = Cash_account.query.filter_by(_id=acc_id).first()
     # add account to db if unique
-    acc = Cash_account(_id=acc_id)
-    db.session.add(acc)
-    db.session.commit()
-    return acc_id
-
-def create_coin_acc(user_id):
-    # generate coin account id
-    acc_id = gen_coin_id(user_id)
-    # check db to see if its unique
-    que = Coin_account.query.filter_by(_id=acc_id).first()
-    while que:
-        acc_id = gen_coin_id(user_id)
-        que = Coin_account.query.filter_by(_id=acc_id).first()
-    # add account to db if unique
-    acc = Coin_account(_id=acc_id)
+    acc = Account(_id=acc_id)
     db.session.add(acc)
     db.session.commit()
     return acc_id
@@ -173,3 +113,9 @@ def confirm(token):
 @login_required
 def profile():
     return render_template('profile.html', user=current_user)
+
+@main.route('/create_plan', methods=['POST','GET'])
+@login_required
+def create_plan():
+    if request.method == 'POST':
+        pass
