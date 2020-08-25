@@ -367,5 +367,15 @@ input#submit:hover {
     }
 }
 
+/* main page css */
+div.main {
+    text-align: center;
+}
 
-
+div.main p {
+    color: white;
+    border: thin solid black;
+    border-bottom-color: rgb(221, 79, 5);
+    border-bottom-style: solid;
+    border-bottom-width: 3px;
+}

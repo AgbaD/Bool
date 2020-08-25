@@ -20,9 +20,8 @@
         <meta name="distribution" content="Global">
         <meta name="rating" content="General">
         
-        <!-- Css Files -->
+        <!-- Css File -->
         <link rel="stylesheet" href="../static/css/index.css" type='text/css' />
-        <link rel="stylesheet" href="../static/css/main.css" type='text/css' />
 
         <title>
             Bool | Welcome    
@@ -35,7 +34,7 @@
                     alt='logo' /></div>
                 <nav class="dropdown">
                     <button class="dropbtn" value='drop' onclick="drop()">
-                    Menu</button>
+                    &#9776;</button>
                     <!-- For dropdown -->
                     <div id="myDropdown" class="dropdown-content">
                         <a href="{{ url_for('.index') }}">Home</a>
@@ -80,8 +79,10 @@
                 </div>
             </div>
         </div>
-
-
+        <div class="main">
+            <p>line</p>
+            <h2>What we Offer</h2>
+        </div>
         <script src="../static/index.js"></script>
     </body>
 </html>
