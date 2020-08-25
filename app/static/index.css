@@ -32,17 +32,19 @@ body {
 }
 
 #top {
-    height: 600px;
+    height: 700px;
+    margin-right: -120px;
+    margin-left: -9px;
+    margin-top: -9px;
 }
 
 .bg-image {
-    margin: -1%;
-    background-image: url("images/money.jpeg");
+    background-image: url("images/p.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     display: flex;
-    width: auto;
+    width: 100%;
     height: 100%;
 }
 
@@ -54,7 +56,7 @@ body {
     height:10%;
     padding-left: 30%;
     margin-top: 17%;
-    width: 50%;
+    width: 60%;
     float: left;
 }
 
@@ -64,8 +66,8 @@ nav {
     background-color: rgb(0,0,0); 
     background-color: rgba(0,0,0, 0.4);
     height: 10%;
-    float: left;
     position: fixed;
+    z-index: 3;
 }
 
 nav ul li {
@@ -91,9 +93,9 @@ nav ul li a:hover {
     border: 1px solid rgb(221, 79, 5); 
     position: absolute;
     top: 30%;
-    left: 11%;
+    left: 14%;
     border-radius: 5px;
-    height: 70%;
+    height: 80%;
 }
 
 .info {
@@ -112,7 +114,7 @@ nav ul li a:hover {
     border: 0px solid rgb(36, 39, 41);
     background-color: rgb(255,255,255);
     color: rgb(36, 39, 41);
-    margin-top: 2%;
+    margin-top: 7%;
     border-radius: 5px;
     text-align: center;
     padding-bottom: 1%;
@@ -172,9 +174,7 @@ input#submit:hover {
     }
     
     nav {
-        background-color: rgba(0,0,0, 0);
-        position: relative;
-        float: right;
+        background-color: rgba(0,0,0,0);
     }
 
     .dropbtn {
@@ -196,7 +196,6 @@ input#submit:hover {
     .dropdown {
         position: relative;
         display: block;
-        float: right;
     }
 
     .dropdown-content {
@@ -221,4 +220,56 @@ input#submit:hover {
     .dropdown-content a:hover {
         color: rgb(221, 79, 5)
     }
+
+    .info {
+        margin-top: 3%;
+    }
 }
+
+@media (max-width: 900px) {
+    body {
+        max-width:800px;
+    }
+    .extra {
+        position: absolute;
+        top: 30%;
+        left: 7%;
+        border-radius: 5px;
+        height: 100%;
+        width: 90%;
+    }
+
+    .info {
+        margin: 1%;
+        margin-top: 1%;
+        margin-left: 6%;
+        font-size: 17px;
+        font-weight: 100;
+        width: 90%;
+        padding-right: 10%;
+        line-height: 56px;
+    }
+
+    .login {
+        float: left;
+        margin-left: 10%;
+        border: 0px solid rgb(36, 39, 41);
+        background-color: rgb(255,255,255);
+        color: rgb(36, 39, 41);
+        margin-top: 1%;
+        width: 70%;
+        border-radius: 5px;
+        text-align: center;
+        padding-bottom: 1%;
+        padding-left: 2%;
+        padding-right: 3%;
+    }
+
+    #top {
+        height: 800px;
+    }
+}
+
+
+
+
