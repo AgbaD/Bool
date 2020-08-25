@@ -9,7 +9,7 @@ from flask_login import login_user, logout_user
 # user created 
 from . import main
 from .. import db
-from ..models import Account, User
+from ..models import Account, User, Plans, Savings
 from ..generator import *
 from .schema import *
 from .payment import *
@@ -68,7 +68,7 @@ def register():
         # schema validation here
         schemaval = validate_reg(data)
         if schemaval["msg"] != 'success':
-            flash("Incorrect or Incomplete Credentials")
+            flash("Invalid Credentials")
         # other validations
         elif User.query.filter_by(email=email).first():
             flash("Email already registered!")
@@ -136,13 +136,64 @@ def confirm(token):
 def dashboard():
     return render_template('dashboard.html', user=current_user)
 
-@main.route('/savings', methods=['POST','GET'])
+@main.route('/save', methods=['POST','GET'])
 @login_required
-def savings():
+def save():
     if request.method == 'POST':
         method = request.form.get('method')
         amount = request.form.get('amount')
+        
+        email = current_user.email
+        transact = new_transaction(email,amount)
 
-    return render_template('save_history.html')
+        if transact[0]:
+            save = Savings(user=current_user.email,
+                amount=amount,reference=transact[2])
+            db.session.add(save)
+            db.session.commit()
+            flash('Account would be updated upon confirmation')
+            return render_template('payment.html', url=transact[1])
+        else:
+            # should not happen
+            flash('Please Try Again')
+            return render_template('save_now.html')
+    return render_template('save_now.html')
 
-"""Paystack Implementation"""
+@main.route('/savings')
+@login_required
+def savings():
+    return render_template('savings.html') 
+
+@main.route('/plan')
+@login_required
+def plan():
+    if request.method = 'POST':
+        title = request.form.get('title')
+        rate = request.form.get('rate')
+        interval = request.form.get('interval')
+        start = request.form.get('start')
+        stop = request.form.get('stop')
+
+        # create new plan with paystack
+        # if return is True
+        # add to db
+        if plan[0]:
+            plan = Plans(user=current_user.email,
+                title=title,rate=rate,interval=interval,
+                start=start,stop=stop)
+            db.session.add(plan)
+            db.session.commit()
+            # verify plans
+            # not sure yet but i yhink
+            return redirect(url_for('.dashboard'))
+    return render_template('create_plan.html')
+
+@main.route('/plans')
+@login_required
+def plans():
+    return render_template('plans.html')
+
+    
+
+
+
