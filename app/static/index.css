@@ -187,6 +187,7 @@ input#submit:hover {
         border: none;
         cursor: pointer;
         margin-top: 4%;  
+        margin-left: 450px;
     }
 
     .dropbtn:hover, .dropbtn:focus {
@@ -202,7 +203,7 @@ input#submit:hover {
         display: none;
         position: absolute;
         background-color: #f1f1f1;
-        min-width: 300px;
+        min-width: 230px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
         z-index: 1;
         right: 0;
@@ -268,8 +269,103 @@ input#submit:hover {
     #top {
         height: 800px;
     }
+
+    .dropbtn {
+        margin-left: 400px;
+    }
 }
 
+@media (max-width: 800px) {
+    .dropbtn {
+        margin-left: 330px;
+    }
+}
+
+@media (max-width: 700px) {
+    .dropbtn {
+        margin-left: 290px;
+    }
+}
+
+@media (max-width: 650px) {
+    .dropbtn {
+        margin-left: 230px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dropbtn {
+        margin-left: 180px;
+        margin-top: 23px;
+    }
+}
+
+@media (max-width: 500px) {
+    .dropbtn {
+        margin-left: 110px;
+    }
+}
+
+@media (max-width: 450px) {
+    .dropbtn {
+        margin-left: 100px;
+    }
+}
+
+@media (max-width: 430px) {
+    .dropbtn {
+        margin-left: 70px;
+    }
+
+    .logo img {
+        margin-top: 7%;
+    }
+
+    .extra{
+        margin-left: 0.1%;
+        height: 110%;
+    }
+
+    .info {
+        margin: 0.5%;
+        margin-left: 6%;
+        font-size: 14px;
+        padding-right: 10%;
+        line-height: 36px;
+    }
+
+    input {
+        font-size: 100%;
+        color: #5a5854;
+        background-color: #f2f2f2;
+        border: 1px solid #bdbdbd;
+        border-radius: 5px;
+        width: 70%;
+        padding: 2px 2px 2px 2px;;
+        background-repeat: no-repeat;
+        background-position: 8px 9px;
+    }
+}
+
+@media (max-width: 400px) {
+    .dropbtn {
+        margin-left: 40px;
+    }
+
+    .extra{
+        height: 115%;
+    }
+}
+
+@media (max-width: 350px) {
+    .dropbtn {
+        margin-left: -1px;
+    }
+
+    .extra{
+        height: 124%;
+    }
+}
 
 
 
