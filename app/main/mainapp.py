@@ -1,14 +1,20 @@
 #!/usr/bin/python
 # Author:   @BlankGodd_
 
+# packages
 from flask import *
 from flask_login import login_required, current_user
 from flask_login import login_user, logout_user
+
+# user created 
 from . import main
 from .. import db
 from ..models import Account, User
 from ..generator import *
+from .schema import *
+from .payment import *
 
+# system
 import re
 
 @main.route('/')
@@ -22,10 +28,17 @@ def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        
+        data = {"email":email,"password":password}
+        # schema validation
+        schemaval = validate_login(data)
+        if schemaval["msg"] != "success":
+            flash("Invalid Credentials")
+            return render_template('login.html')
         user = User.query.filter_by(email=email).first()
         if user and validate_pass(user, password):
             login_user(user, request.form.get('remember_me'))
-            return redirect(url_for('.profile'))
+            return redirect(url_for('.dashboard'))
         flash('Invalid Username or Password!')
     return render_template('login.html')
 
@@ -46,9 +59,18 @@ def register():
         phone = request.form.get('phone')
         location = request.form.get('location')
 
-        #add schema validation here
+        data = {
+            "email":email,"firstname":firstname,
+            "lastname":lastname,"password":password,
+            "address":location,"phone":phone
+        }
 
-        if User.query.filter_by(email=email).first():
+        # schema validation here
+        schemaval = validate_reg(data)
+        if schemaval["msg"] != 'success':
+            flash("Incorrect or Incomplete Credentials")
+        # other validations
+        elif User.query.filter_by(email=email).first():
             flash("Email already registered!")
         elif password != cpassword:
             flash("Passwords do not match!")
@@ -102,20 +124,25 @@ def confirm(token):
         flash('You have confirmed your account. Thanks!')
     else:
         flash('The confirmation link is invalid or has expired.')
-    return redirect(url_for('.profile'))
+    return redirect(url_for('.dashboard'))
 
 # confirm account from profile view func
 
 """Done with Authentication"""
 
 """Profiling"""
-@main.route('/profile')
+@main.route('/dashboard')
 @login_required
-def profile():
-    return render_template('profile.html', user=current_user)
+def dashboard():
+    return render_template('dashboard.html', user=current_user)
 
-@main.route('/create_plan', methods=['POST','GET'])
+@main.route('/savings', methods=['POST','GET'])
 @login_required
-def create_plan():
+def savings():
     if request.method == 'POST':
-        pass
+        method = request.form.get('method')
+        amount = request.form.get('amount')
+
+    return render_template('save_history.html')
+
+"""Paystack Implementation"""

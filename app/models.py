@@ -13,7 +13,7 @@ class Account(db.Model, UserMixin):
 
     def __init__(self, **kwargs):
         super(Account, self).__init__(**kwargs)
-        self._amount = 30.00
+        self._amount = 3.00
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -26,6 +26,8 @@ class User(UserMixin, db.Model):
     location = db.Column(db.String(64))
     acc_id = db.Column(db.Integer)
     is_admin = db.Column(db.Boolean, default=False)
+    account_name = db.Column(db.String(64))
+    account_number = db.Column(db.Integer)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -43,7 +45,12 @@ class Plans(UserMixin, db.Model):
     rate = db.Column(db.Integer)
     total = db.Column(db.Integer)
 
-
+class Savings(UserMixin, db.Model):
+    __tablename__ = 'savings'
+    id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(64))
+    amount = db.Column(db.Integer)
+    confirmed = db.Column(db.Boolean, default=False)
 
 
 @login_manager.user_loader
