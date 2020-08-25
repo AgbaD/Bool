@@ -134,7 +134,7 @@ def confirm(token):
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', user=current_user)
+    return render_template('dashboard.html')
 
 @main.route('/save', methods=['POST','GET'])
 @login_required
@@ -199,5 +199,11 @@ def withdraw():
     if request.method == 'POST':
         w_type = request.form.get('type')
         amount = request.form.get('amount')
+        # complete view fuction
+        return redirect(url_for('.dashboard'))
 
+@main.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html')
 
