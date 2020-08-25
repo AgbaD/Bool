@@ -164,10 +164,10 @@ def save():
 def savings():
     return render_template('savings.html') 
 
-@main.route('/plan')
+@main.route('/plan', methods=['GET','POST'])
 @login_required
 def plan():
-    if request.method = 'POST':
+    if request.method == 'POST':
         title = request.form.get('title')
         rate = request.form.get('rate')
         interval = request.form.get('interval')
@@ -193,7 +193,11 @@ def plan():
 def plans():
     return render_template('plans.html')
 
-    
-
+@main.route('/withdraw',methods=['GET','POST'])
+@login_required
+def withdraw():
+    if request.method == 'POST':
+        w_type = request.form.get('type')
+        amount = request.form.get('amount')
 
 

@@ -12,8 +12,8 @@ paystack = Paystack(secret_key=paystack_secret_key)
 """Paystack Implementation"""
 def new_transaction(email, amount):
     # paystack deals in kobo
-        amount = amount*100
-
+    amount = amount*100
+    
     response = Transaction.initialize(
         amount=amount, email=email,callback_url="localhost:5000/dashboard")
     if response["status"]:
@@ -32,5 +32,4 @@ def verify_transaction(reference):
             "data" : resp['customer']['metadata']['cart']
             }
         return data 
-    return {
-        "verify" :False
+    return {"verify" :False}
