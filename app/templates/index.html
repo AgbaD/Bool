@@ -28,61 +28,6 @@
         </title>
     </head>
     <body>
-        <div id='top'>
-            <div class='bg-image'>
-                <div class="logo"><img src="../static/images/logo.png"
-                    alt='logo' /></div>
-                <nav class="dropdown">
-                    <button class="dropbtn" value='drop' onclick="drop()">
-                    &#9776;</button>
-                    <!-- For dropdown -->
-                    <div id="myDropdown" class="dropdown-content">
-                        <a href="{{ url_for('.index') }}">Home</a>
-                        <a href="#">About Us</a>
-                        <a href="#">FAQ</a>
-                        <a href="#">Help Center</a>
-                        <a href="#">Security</a>
-                        <a href="#">Terms of Service</a>
-                        <a href="#">Contact</a>
-                    </div>
-                    <ul class="full">
-                        <li><a href="{{ url_for('.index') }}">Home</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">FAQ</a></li>
-                        <li><a href="#">Help Center</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">Terms of Service</a></li>
-                        <li><a href="#">Contact</a></li>
-                    </ul>
-                </nav>
-            </div>
-            <div class='extra col-9'>
-                <div class='info col-4'>
-                    <h2>Save for the future of you and yours.</h2>
-                </div>
-                <div class="login col-4">
-                    <h2>Login</h2>
-                    <p class='ex'>Continue saving today</p>
-                    <form action="" method="POST">
-                        <p>Email</p>
-                        <input name='email' type='email' required='required' /><br />
-                        <p>Password</p>
-                        <input name='password' type='password' required='required' /><br />
-                        <input id='remember' type="checkbox" name="remember_me" value="remember_me" />
-                        <label for='remember'>Remember</label>
-                        <input id='submit' type="submit" name="submit" value="Login" />
-                    </form>
-                    <p>New User? <a href="{{ url_for('.register') }}">
-                        Create Account
-                    </a></p>
-                    <a href="#">Forgot Password</a>
-                </div>
-            </div>
-        </div>
-        <div class="main">
-            <p>line</p>
-            <h2>What we Offer</h2>
-        </div>
-        <script src="../static/index.js"></script>
+        
     </body>
 </html>
