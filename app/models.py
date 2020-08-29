@@ -69,6 +69,10 @@ class Savings(UserMixin, db.Model):
     reference = db.Column(db.String(64))
     confirmed = db.Column(db.Boolean, default=False)
 
+# a transactions db where primary key is user
+# and a dictionary of transactions with timestamps
+# as keys
+
 
 @login_manager.user_loader
 def load_user(user_id):

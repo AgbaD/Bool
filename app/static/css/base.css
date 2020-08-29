@@ -2,7 +2,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    list-style: none;
     text-decoration: none;
 }
 body{
@@ -23,6 +22,7 @@ section.main{
 nav{
     height: 70px;
     background: rgb(219, 102, 24);
+    list-style: none;
 }
 label.logo{
     color: white;

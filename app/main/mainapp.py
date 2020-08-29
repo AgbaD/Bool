@@ -149,14 +149,14 @@ def save():
         if transact[0]:
             save = Savings(user=current_user.email,
                 amount=amount,reference=transact[2])
+            # add transaction to transaction db
             db.session.add(save)
             db.session.commit()
             flash('Account would be updated upon confirmation')
             return render_template('payment.html', url=transact[1])
-        else:
-            # should not happen
-            flash('Please Try Again')
-            return render_template('save_now.html')
+        # should not happen
+        flash('Please Try Again')
+        return render_template('save_now.html')
     return render_template('save_now.html')
 
 @main.route('/savings')
