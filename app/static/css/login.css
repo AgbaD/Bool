@@ -1,15 +1,15 @@
 section.main{
     width: 90%;
     margin: 0 5%;
-    background: linear-gradient(-30deg, rgba(219, 102, 24, 1) 0%,
-    rgba(146, 67, 15, 0.9) 50%, rgba(20, 23, 24, 0.9) 50%, 
-    rgba(45, 92, 88, 1) 100%);
+    background: linear-gradient(-30deg, rgba(219, 102, 24, 0.9) 0%,
+    rgba(146, 67, 15, 1) 50%, rgba(20, 23, 24, 1) 50%, 
+    rgba(45, 92, 88, 0.9) 100%);
     height: auto;
 }
 div.front{
     width: 100%;
     border: 1px solid rgba(255,255,255,0.1);
-    height: 100vh;
+    height: auto;
 }
 /*
 div.login{
@@ -25,7 +25,7 @@ div.login{
 }
 */
 div.box{
-    margin: 10% 20%;
+    margin: 5% 20%;
     margin-bottom: 50px;
     padding: 5% 0;
     width: 60%;
@@ -64,6 +64,9 @@ div.box .login .inputBx input{
     font-weight: 300;
     box-shadow: insert 0 0 25px rgba(0,0,0,0.2);
     }
+div.box .login .inputBx input::placeholder{
+    color: white;
+}
 div.box .login .inputBx img{
     position: absolute;
     top: 5px;
@@ -71,13 +74,57 @@ div.box .login .inputBx img{
     transform: scale(0.7);
     filter: invert(1);
 }
+div.box .login .inputBx [type="submit"]{
+    background: white;
+    color: rgb(22, 24, 26);
+    max-width: 130px;
+    padding: 5px 10px;
+    box-shadow: none;
+    font-weight: 500;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
 .remember{
-    left: -23%;
     position: relative;
     display: inline-block;
     color: white;
     font-weight: 300;
-    margin-bottom: 10px;
+    margin-bottom: 17px;
     cursor: pointer;
 }
-
+div.box .login p{
+    display: inline;
+    padding: 0 15px;
+    font-size: 15px;
+}
+div.box .login a{
+    color: white;
+    text-decoration: underline;
+}
+div.box .login a:hover{
+    color: rgb(22, 24, 26)
+}
+@media (max-width: 570px){
+    div.box{
+        margin: 5% 15%;
+        width: 70%;
+        min-height: 50vh;
+    }
+}
+@media (max-width: 490px){
+    div.box{
+        margin: 5% 15%;
+        width: 70%;
+        min-height: 50vh;
+    }
+    div.box .login p{
+        display: block;
+        margin-bottom: 10px;
+    }
+}
+@media (max-width: 430px){
+    div.box{
+        margin: 5% 10%;
+        width: 80%;
+    }
+}
