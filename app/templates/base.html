@@ -42,9 +42,13 @@
                     <li><a href="{{ url_for('.index') }}">Home</a></li>
                     <li><a href="#">About Us</a></li>
                     <li><a href="#">Security</a></li>
-                    <li><a href="{{ url_for('.login') }}">Login</a></li>
-                    <li><a href="#">Register</a></li>
                     <li><a href="#">FAQ</a></li>
+                    {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('.login') }}">Login</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('.register') }}">Register</a></li>
+                    {% endif %}
                 </ul>
             </nav>
             <!-- End nav -->

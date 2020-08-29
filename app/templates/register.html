@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="../static/css/register.css" type='text/css' />
+{% endblock %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<div class="front">
+        <div class="box">
+            <div class="reg">
+                <h2>Create Account</h2>
+                <form method="POST" action="">
+                    <div class="inputBx">
+                        <h3>Firstname</h3>
+                        <input type="text" name="firstname" required="required"
+                        placeholder="John">
+                    </div>
+                    <div class="inputBx">
+                        <h3>Lastname</h3>
+                        <input type="text" name="lastname" required="required"
+                        placeholder="Wick">
+                    </div>
+                    <div class="inputBx">
+                        <h3>Email</h3>
+                        <input type="email" name="email" required="required"
+                        placeholder="johnwick@dawg.com">
+                    </div>
+                    <div class="inputBx">
+                        <h3>Password</h3>
+                        <input type="password" name="password" required="required"
+                        placeholder="password">
+                    </div>
+                    <div class="inputBx">
+                        <h3>Confirm Password</h3>
+                        <input type="password" name="cpassword" required="required"
+                        placeholder="password">
+                    </div>
+                    <div class="inputBx">
+                        <h3>Phone</h3>
+                        <input type="text" name="phone" placeholder="+123456789">
+                    </div>
+                    <div class="inputBx">
+                        <h3>Address</h3>
+                        <input type="tex" name="location" >
+                    </div>
+                    <div class="inputBx">
+                        <input type="submit" value="Register">
+                    </div>
+                </form>
+                <p><a href="{{ url_for('.login') }}">Login</a></p>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

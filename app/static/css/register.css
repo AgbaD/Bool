@@ -11,19 +11,6 @@ div.front{
     border: 1px solid rgba(255,255,255,0.1);
     height: auto;
 }
-/*
-div.login{
-    margin: 10% 20%;
-    margin-bottom: 50px;
-    padding: 10% 0;
-    width: 60%;
-    text-align: center;
-    min-height: 60vh;
-    background-color: rgba(255,255,255,0.1);
-    border-radius: 5px;
-    box-shadow: 0 5px 35px rgba(0,0,0,0.2)
-}
-*/
 div.box{
     margin: 5% 20%;
     margin-bottom: 50px;
@@ -35,46 +22,45 @@ div.box{
     border-radius: 5px;
     box-shadow: 0 5px 35px rgba(0,0,0,0.2);
 }
-div.box .login{
+div.box .reg{
     position: relative;
     width: 100%;
 }
 
-div.box .login h2{
+div.box .reg h2{
     color: white;
     font-weight: 600;
     letter-spacing: 2px;
     margin-bottom: 30px;
 }
-div.box .login .inputBx{
+div.box .reg .inputBx{
     position: relative;
     width: 100%;
     margin-bottom:  30px;
 }
-div.box .login .inputBx input{
+div.box .reg .inputBx input{
     width: 70%;
     outline: none;
     border: 1px solid rgba(255,255,255,0.3);
     background: transparent;
     padding: 5px 10px;
-    padding-left: 35px;
     border-radius: 5px;
     color: white;
     font-size: 16px;
     font-weight: 300;
     box-shadow: insert 0 0 25px rgba(0,0,0,0.2);
     }
-div.box .login .inputBx input:focus{
+div.box .reg .inputBx input:focus{
     border: 2px solid white;
 }
-div.box .login .inputBx img{
+div.box .reg .inputBx img{
     position: absolute;
     top: 5px;
     left: 16%;
     transform: scale(0.7);
     filter: invert(1);
 }
-div.box .login .inputBx [type="submit"]{
+div.box .reg .inputBx [type="submit"]{
     background: white;
     color: rgb(22, 24, 26);
     max-width: 130px;
@@ -92,17 +78,23 @@ div.box .login .inputBx [type="submit"]{
     margin-bottom: 17px;
     cursor: pointer;
 }
-div.box .login p{
+div.box .reg p{
     display: inline;
     padding: 0 15px;
     font-size: 15px;
 }
-div.box .login a{
+div.box .reg a{
     color: white;
     text-decoration: underline;
 }
-div.box .login a:hover{
+div.box .reg a:hover{
     color: rgb(22, 24, 26)
+}
+div.box .reg h3{
+    color: white;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
 }
 @media (max-width: 570px){
     div.box{
@@ -117,7 +109,7 @@ div.box .login a:hover{
         width: 70%;
         min-height: 50vh;
     }
-    div.box .login p{
+    div.box .reg p{
         display: block;
         margin-bottom: 10px;
     }
@@ -128,3 +120,5 @@ div.box .login a:hover{
         width: 80%;
     }
 }
+
+
