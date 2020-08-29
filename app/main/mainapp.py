@@ -32,7 +32,7 @@ def login():
         # schema validation
         schemaval = validate_login(data)
         if schemaval["msg"] != "success":
-            flash("Invalid Credentials")
+            flash(schemaval['error'])
             return render_template('login.html')
         user = User.query.filter_by(email=email).first()
         if user and validate_pass(user, password):
@@ -68,7 +68,7 @@ def register():
         # schema validation here
         schemaval = validate_reg(data)
         if schemaval["msg"] != 'success':
-            flash("Invalid Credentials")
+            flash(schemaval['error'])
         # other validations
         elif User.query.filter_by(email=email).first():
             flash("Email already registered!")

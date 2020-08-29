@@ -51,6 +51,12 @@
                     {% endif %}
                 </ul>
             </nav>
+            {% for message in get_flashed_messages() %}
+            <div class="flash">
+                <button type="button" class="close">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
             <!-- End nav -->
             {% block content %}{% endblock %}
             <footer>Bool 2020&#169 | Website by <a href="http://blankgodd.surge.sh"

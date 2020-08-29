@@ -1,7 +1,7 @@
 section.main{
     width: 90%;
     margin: 0 5%;
-    background: linear-gradient(-30deg, rgba(219, 102, 24, 0.9) 0%,
+    background: linear-gradient(30deg, rgba(219, 102, 24, 0.9) 0%,
     rgba(146, 67, 15, 1) 50%, rgba(20, 23, 24, 1) 50%, 
     rgba(45, 92, 88, 0.9) 100%);
     height: auto;

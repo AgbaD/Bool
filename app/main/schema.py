@@ -66,9 +66,9 @@ def validate_reg(user):
             if p[1] == 'password' and p[2] == 'minLength':
                 error_message = "Password too short, minimum length of 8"
                 return {"msg":"error","error":error_message}
-            if p[1] == 'username':
+            if p[1] == 'firstname' or p[1] == 'lastname':
                 if p[2] == 'minLength':
-                    error_message = "Username too short, minimum of 3 characters"
+                    error_message = "Name too short, minimum of 3 characters"
                     return {"msg":"error","error":error_message}
                 if p[2] == 'maxLength':
                     error_message = "Username too long, max of 15 characters"

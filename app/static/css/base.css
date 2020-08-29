@@ -10,12 +10,14 @@ body{
     background: url("../images/p.jpg");
     background-size: cover;
     background-attachment: fixed;
-    color: #282828;
+    color: white;
 }
 section.main{
     width: 90%;
     margin: 0 5%;
-    background-color: rgba(255,255,255,0.7);
+    background: linear-gradient(-90deg, rgba(219, 102, 24, 0.9) 0%,
+    rgba(146, 67, 15, 1) 50%, rgba(20, 23, 24, 1) 50%, 
+    rgba(45, 92, 88, 0.9) 100%);
     height: auto;
 }
 nav{
@@ -100,6 +102,10 @@ nav ul li a:hover{
     #check:checked ~ ul {
         left: 5%;
     }
+}
+div.flash{
+    border: 1px solid rgb(223, 55, 55);
+    background: rgba(207, 40, 40, 0.3);
 }
 footer{
     left: 5%;
