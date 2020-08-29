@@ -1,0 +1,17 @@
+div.front{
+    width: 100%;
+    border: 1px solid blue;
+}
+div.login{
+    margin: 0 20%;
+    margin-bottom: 50px;
+    padding: 10% 0;
+    width: 60%;
+    text-align: center;
+    min-height: 60vh;
+    background: linear-gradient(-30deg, #d86c14 0%,
+    #9e4b07 50%, #262626 50%, #607d8b 100%);
+    border-radius: 5px;
+}
+
+

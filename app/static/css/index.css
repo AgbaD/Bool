@@ -1,0 +1,12 @@
+div.front{
+    width: 100%;
+    border: 1px solid blue;
+}
+div.front div#banner{
+    font-size: 35px;
+    line-height: 70px;
+    padding: 80px 0;
+    padding-bottom: 40px;
+    text-align: center; 
+    font-weight: bold;
+}

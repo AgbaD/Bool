@@ -18,8 +18,12 @@ from .payment import *
 import re
 
 """Authentication"""
-@main.route('/', methods=['GET','POST'])
+@main.route('/')
 def index():
+    return render_template('index.html')
+
+@main.route("/login", methods=['GET','POST'])
+def login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -35,7 +39,8 @@ def index():
             login_user(user, request.form.get('remember_me'))
             return redirect(url_for('.dashboard'))
         flash('Invalid Username or Password!')
-    return render_template('index.html')
+    return render_template('login.html')
+    
 
 @main.route('/logout')
 @login_required
