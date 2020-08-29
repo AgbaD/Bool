@@ -31,7 +31,7 @@
     <body>
         <section class="main">
             <!-- Start nav -->
-            <nav>
+            <nav id="nav">
                 <input type='checkbox' id='check'>
                 <label for="check" class="checkbtn">
                     <!--<i class="fas fa-bars"></i>-->
@@ -40,7 +40,7 @@
                 <label class="logo">Bool</label>
                 <ul>
                     <li><a href="{{ url_for('.index') }}">Home</a></li>
-                    <li><a href="#">About Us</a></li>
+                    <li><a href="{{ url_for('.index') }}#about">About Us</a></li>
                     <li><a href="{{ url_for('.index') }}#security">Security</a></li>
                     <li><a href="#">FAQ</a></li>
                     {% if current_user.is_authenticated %}
@@ -59,7 +59,8 @@
             {% endfor %}
             <!-- End nav -->
             {% block content %}{% endblock %}
-            <footer>Bool 2020&#169 | Website by <a href="http://blankgodd.surge.sh"
+            <footer>
+                Bool 2020&#169 | Website by <a href="http://blankgodd.surge.sh"
                 target="_blank">Damilare Agba</a></footer>
         </section>
     </body>

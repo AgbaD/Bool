@@ -11,14 +11,6 @@ body{
     background-attachment: fixed;
     color: white;
 }
-section.main{
-    width: 90%;
-    margin: 0 5%;
-    background: linear-gradient(-90deg, rgba(219, 102, 24, 0.9) 0%,
-    rgba(146, 67, 15, 1) 50%, rgba(20, 23, 24, 1) 50%, 
-    rgba(45, 92, 88, 0.9) 100%);
-    height: auto;
-}
 nav{
     height: 70px;
     background: rgb(219, 102, 24);
@@ -76,7 +68,7 @@ nav ul li a:hover{
     .checkbtn {
         display: block;
     }
-    ul {
+    nav ul {
         position: fixed;
         width: 90%;
         height: 100vh;
