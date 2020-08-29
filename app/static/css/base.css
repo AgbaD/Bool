@@ -20,10 +20,7 @@ section.main{
 }
 nav{
     height: 70px;
-    background: #d86c14;
-    position: fixed;
-    top: 0;
-    width: 90%;
+    background: rgb(219, 102, 24);
 }
 label.logo{
     color: white;
@@ -48,7 +45,7 @@ nav ul li a {
     text-transform: uppercase;
 }
 nav ul li a:hover{
-    color: #d86c14;
+    color: rgb(219, 102, 24);
     background: white;
     transition: .5s;
 }
@@ -81,7 +78,7 @@ nav ul li a:hover{
         position: fixed;
         width: 90%;
         height: 100vh;
-        background: #d86c14;
+        background: rgb(219, 102, 24);
         top: 70px;
         left: -100%;
         text-align: center;
@@ -97,18 +94,24 @@ nav ul li a:hover{
     }
     a:hover {
         background: none;
-        color: #753c0d;
+        color: rgb(146, 67, 15);
     }
     #check:checked ~ ul {
         left: 5%;
     }
 }
 footer{
-    position: fixed;
     left: 5%;
     bottom: 0;
     width: 90%;
-    background: #d86c14;
+    background: rgb(219, 102, 24);
+    padding: 5px 0;
     color: white;
     text-align: center;
+}
+footer a{
+    color: #282828;
+}
+footer a:hover{
+    color: #79c4e2;
 }

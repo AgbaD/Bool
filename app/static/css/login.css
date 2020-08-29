@@ -1,17 +1,83 @@
+section.main{
+    width: 90%;
+    margin: 0 5%;
+    background: linear-gradient(-30deg, rgba(219, 102, 24, 1) 0%,
+    rgba(146, 67, 15, 0.9) 50%, rgba(20, 23, 24, 0.9) 50%, 
+    rgba(45, 92, 88, 1) 100%);
+    height: auto;
+}
 div.front{
     width: 100%;
-    border: 1px solid blue;
+    border: 1px solid rgba(255,255,255,0.1);
+    height: 100vh;
 }
+/*
 div.login{
-    margin: 0 20%;
+    margin: 10% 20%;
     margin-bottom: 50px;
     padding: 10% 0;
     width: 60%;
     text-align: center;
     min-height: 60vh;
-    background: linear-gradient(-30deg, #d86c14 0%,
-    #9e4b07 50%, #262626 50%, #607d8b 100%);
+    background-color: rgba(255,255,255,0.1);
     border-radius: 5px;
+    box-shadow: 0 5px 35px rgba(0,0,0,0.2)
+}
+*/
+div.box{
+    margin: 10% 20%;
+    margin-bottom: 50px;
+    padding: 5% 0;
+    width: 60%;
+    text-align: center;
+    min-height: 60vh;
+    background: rgba(255,255,255,0.1);
+    border-radius: 5px;
+    box-shadow: 0 5px 35px rgba(0,0,0,0.2);
+}
+div.box .login{
+    position: relative;
+    width: 100%;
 }
 
+div.box .login h2{
+    color: white;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+div.box .login .inputBx{
+    position: relative;
+    width: 100%;
+    margin-bottom:  30px;
+}
+div.box .login .inputBx input{
+    width: 70%;
+    outline: none;
+    border: 1px solid rgba(255,255,255,0.3);
+    background: transparent;
+    padding: 5px 10px;
+    padding-left: 35px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+    font-weight: 300;
+    box-shadow: insert 0 0 25px rgba(0,0,0,0.2);
+    }
+div.box .login .inputBx img{
+    position: absolute;
+    top: 5px;
+    left: 16%;
+    transform: scale(0.7);
+    filter: invert(1);
+}
+.remember{
+    left: -23%;
+    position: relative;
+    display: inline-block;
+    color: white;
+    font-weight: 300;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
 
