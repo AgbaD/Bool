@@ -17,11 +17,12 @@ from .payment import *
 # system
 import re
 
-"""Authentication"""
+"""General"""
 @main.route('/')
 def index():
     return render_template('index.html')
 
+"""Authentication"""
 @main.route("/login", methods=['GET','POST'])
 def login():
     if request.method == 'POST':

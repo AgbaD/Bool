@@ -87,10 +87,6 @@ nav ul li a:hover{
     nav ul li a {
         font-size: 20px;
     }
-    a:hover {
-        background: none;
-        color: rgb(146, 67, 15);
-    }
     #check:checked ~ ul {
         left: 5%;
     }
