@@ -21,21 +21,24 @@ div.front div#banner2 img{
 }
 div.front div#banner2 .words{
     width: 60%;
+    height: auto;
     float: right;
-    padding: 80px 1%;
+    padding: 70px 0;
+    color: rgb(66, 74, 82);
 }
 div.front div#banner2 .words h4{
     font-size: 30px;
-    line-height: 30px;
-    font-weight: 400;
-    padding-left: 10px;
+    line-height: 43px;
+    font-weight: 350;
     padding-bottom: 30px;
 }
 div.front div#about{
-    padding: 0 70px;
+    padding: 30px 70px;
+    padding-top: 30px;
     line-height: 30px;
     font-weight: 330;
     margin-bottom: 30px;
+    background: rgb(242, 245, 247);
 }
 div.front div#about h4{
     font-size: 30px;
@@ -86,4 +89,125 @@ div.front a.top:hover{
     background: linear-gradient(rgba(219, 102, 24, 0.9) 0%,
     rgba(146, 67, 15, 1) 100%);
     color: rgba(45, 92, 88, 0.9);
+}
+@media (max-width:1260px){
+    div.front div#banner2 .words{
+        padding-top: 60px
+    }
+    div.front div#banner2 .words h4{
+        font-size: 27px;
+        line-height: 40px;
+        font-weight: 350;
+        padding-bottom: 30px;
+    }
+    div.front div#about ul li{
+        margin: 0 60px;
+        margin-bottom: 33px;
+    }
+}
+@media (max-width:1187px){
+    div.front div#banner2 .words{
+        padding-top: 40px;
+        margin-right: 30px;
+    }
+}
+@media (max-width:1060px){
+    div.front div#banner2 .words{
+        padding-top: 30px;
+    }
+    div.front div#banner2 .words h4{
+        line-height: 30px;
+        font-size: 23px;
+    }
+}   
+@media (max-width:960px){
+    div.front div#about ul li{
+        margin: 0 50px;
+        margin-bottom: 33px;
+    }
+}
+@media (max-width:834px){
+    div.front div#about ul li{
+        width: 40%;
+        margin: 0 20px;
+        margin-left: 13px;
+        margin-bottom: 33px;
+    }
+    div.front div#banner2 .words{
+        padding-top: 20px;
+    }
+    div.front div#banner2 .words h4{
+        line-height: 30px;
+        font-size: 20px;
+    }
+    div.front div#about h4, div.front div#security h4{
+        font-size: 27px;
+    }
+}
+@media (max-width:750px){
+    div.front div#banner2{
+        height: 30vh;
+    }
+    div.front div#about h4, div.front div#security h4{
+        font-size: 24px;
+    }
+    div.front div#about, div.front div#security{
+        padding: 30px 50px;
+    }
+}
+@media (max-width:670px){
+    div.front div#about ul li{
+        width: 43%;
+        margin: 0 15px;
+        margin-left: 10px;
+        margin-bottom: 33px;
+    }
+}
+@media (max-width:615px){
+    div.front div#banner2 .words h4{
+        line-height: 25px;
+        font-size: 20px;
+    }
+    div.front div#about ul li{
+        width: 77%;
+        margin: 0 15px;
+        margin-left: 30px;
+        margin-bottom: 33px;
+    }
+}
+@media (max-width:560px){
+    div.front div#banner2{
+        height: 53vh;
+    }
+    div.front div#banner2 img{
+        width: 70%;
+        height: 30vh;
+        margin: 0 0;
+    }
+    div.front div#banner2 .words{
+        width: 90%;
+        padding: 0 10px;
+    }
+}
+@media (max-width:440px){
+    div.front div#banner2 .words h4{
+        padding-bottom: 13px;
+    }
+    div.front div#about, div.front div#security{
+        padding: 30px 40px;
+    }
+    div.front div#about ul li{
+        width: 85%;
+        margin: 0 15px;
+        margin-left: 23px;
+        margin-bottom: 33px;
+    }
+}
+@media (max-width:390px){
+    div.front div#banner2{
+        height: 60vh;
+    }
+    div.front div#banner2 img{
+        width: 100%;
+    }
 }
