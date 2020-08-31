@@ -28,49 +28,6 @@
         </title>
     </head>
     <body>
-        <div class="dash">
-            <nav id="nav">
-                <label class="logo">Bool</label>
-                <a href="{{ url_for('.logout') }}">
-                    Logout
-                </a>
-            </nav>
-            <aside>
-                <ul>
-                    <li><a href="{{ url_for('.profile') }}">
-                        Profile
-                    </a></li>
-                    <!-- Dropdown here -->
-                    <div class="dropdown">
-                        <li class="top">Save</li>
-                        <ul class="dp-content">
-                            <li><a href="{{ url_for('.save') }}">
-                                Save</a></li>
-                            <li><a href="{{ url_for('.savings') }}">
-                                History</a></li>
-                        </ul>
-                    </div>
-                    <!-- Dropdown here -->
-                    <div class="dropdown">
-                        <li class="top">Plans</li>
-                        <ul class="dp-content">
-                            <li><a href="{{ url_for('.plan') }}">
-                                Plan</a></li>
-                            <li><a href="{{ url_for('.plans') }}">
-                                History</a></li>
-                        </ul>
-                    </div>
-                    <li><a href="{{ url_for('.withdraw') }}">
-                        Withdraw
-                    </a></li>
-                </ul>
-            </aside>
-            <section class="main">
-                <div class="title">
-                    <p>This Month</p>
-                    {{  }}
-                </div>
-            </section>
-        </div>
+       
     </body>
 </html>

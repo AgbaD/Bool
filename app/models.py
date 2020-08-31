@@ -68,7 +68,6 @@ class Savings(UserMixin, db.Model):
     amount = db.Column(db.Integer)
     reference = db.Column(db.String(64))
     confirmed = db.Column(db.Boolean, default=False)
-    # timestapm here
     time = db.Column()
 
 # a transactions db where primary key is user
