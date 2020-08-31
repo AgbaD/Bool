@@ -202,6 +202,7 @@ def withdraw():
         amount = request.form.get('amount')
         # complete view fuction
         return redirect(url_for('.dashboard'))
+    return render_template('withdraw.html')
 
 @main.route('/profile')
 @login_required

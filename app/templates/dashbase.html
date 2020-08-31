@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="../static/images/logo.png" />
+
+        <!-- Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Online wallet for cash and crypto" />
+        <meta http-equiv="author" content="Damilare Agbabiaka" />
+        <meta name="title" content="Bool; Online Wallet" />
+        <meta name="summary" content="Online wallet for cash and crypto" />
+        <meta name="language" content="English" />
+        <meta name="robots" content="index,follow" />
+        <meta name="Classification" content="commerce" />
+        <meta name="designer" content="Damilare Agbabiaka" />
+        <meta name="category" content="Online Banking">
+        <meta name="distribution" content="Global">
+        <meta name="rating" content="General">
+        
+        <!-- Css File -->
+        <link rel="stylesheet" href="../static/css/dashbase.css" type='text/css' />
+        {% block title %}{% endblock %}
+
+        <!-- Others -->
+        <script src="https://use.fontawesome.com/c005ab3eaa.js"></script>
+
+
+        <title>
+            Bool | {% block title %}{% endblock %} 
+        </title>
+    </head>
+    <body>
+        <div class="top">
+           <label class="logo">Bool</label>
+           <a href="{{ url_for('.logout') }}">Logout</a>
+        </div>
+        <div class="main">
+            <aside>
+                <a href="{{ url_for('.dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('.profile') }}">Profile</a>
+                <div class="dropdown dropdown-save">
+                    <button class="dropbtn"><i class="fas fa-piggy-bank"></i>Save
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('.save') }}">New</a>
+                        <a href="{{ url_for('.savings') }}">History</a>
+                    </div>
+                </div>
+                <div class="dropdown dropdown-plans">
+                    <button class="dropbtn">Plans
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('.plan') }}">New</a>
+                        <a href="{{ url_for('.plans') }}">History</a>
+                    </div>
+                </div>
+                <a class="withdraw" href="{{ url_for('.withdraw') }}">
+                    Withdraw</a>
+            </aside>
+            <div class="dash">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
