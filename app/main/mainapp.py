@@ -133,9 +133,9 @@ def confirm(token):
 
 """Profiling"""
 @main.route('/dashboard')
-@login_required
+# @login_required
 def dashboard():
-    return render_template('dashboard.html')
+    return render_template('dash.html')
 
 @main.route('/save', methods=['POST','GET'])
 @login_required
