@@ -137,7 +137,7 @@ def confirm(token):
 def dashboard():
     saved = current_user.saved
     withdrawn = current_user.withdrawn
-    data = {'saved':saved, 'withdrawn':withdraw}
+    data = {'saved':saved, 'withdrawn':withdrawn}
 
     acc_id = current_user.acc_id
     acc = Account.query.filter_by(_id=acc_id).first()

@@ -13,14 +13,26 @@ Dashboard
     <label class="loc">Dashboard</label>
 </div>
 <div class="sn">
-    <label class="snl">Save Now</label>
+    <label class="snl">Quick Save</label>
     <a href="{{ url_for('.save') }}" class="snb">
-        Click here</a>
+        Start</a>
 </div>
 <div class="saved">
     <label class="amount">
-        #{{ data['saved']}}
+        #{{ data['saved'] }}
     </label>
     <label class="title">Saved</label>
+</div>
+<div class="withdrawn">
+    <label class="amount">
+        #{{ data['withdrawn'] }}
+    </label>
+    <label class="title">Withdrawn</label>
+</div>
+<div class="balance">
+    <label class="amount">
+        #{{ data['balance'] }}
+    </label>
+    <label class="title">Balance</label>
 </div>
 {% endblock %}
