@@ -120,7 +120,7 @@ def create_acc(user_id):
 @login_required
 def confirm(token):
     if current_user.confirmed:
-        return redirect(url_for('.profile'))
+        return redirect(url_for('.dashboard'))
     if confirm_token(current_user, token):
         flash('You have confirmed your account. Thanks!')
     else:

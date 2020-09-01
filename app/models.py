@@ -33,8 +33,8 @@ class User(UserMixin, db.Model):
     occupation = db.Column(db.String(64))
     nationality = db.Column(db.String(64))
     state = db.Column(db.String(64))
-    saved = db.Column(db.Integer)
-    withdrawn = db.Column(db.Integer)
+    saved = db.Column(db.Integer, default=0)
+    withdrawn = db.Column(db.Integer, default=0)
     # next of kin
     name_nok = db.Column(db.String(64))
     phone_nok = db.Column(db.Integer)
