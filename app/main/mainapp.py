@@ -106,10 +106,10 @@ def create_acc(user_id):
     # generate account id
     acc_id = int(gen_acc_id(user_id))
     # check db to see if its unique
-    que = Cash_account.query.filter_by(_id=acc_id).first()
+    que = Account.query.filter_by(_id=acc_id).first()
     while que:
         acc_id = int(gen_acc_id(user_id))
-        que = Cash_account.query.filter_by(_id=acc_id).first()
+        que = Account.query.filter_by(_id=acc_id).first()
     # add account to db if unique
     acc = Account(_id=acc_id)
     db.session.add(acc)
@@ -135,7 +135,15 @@ def confirm(token):
 @main.route('/dashboard')
 # @login_required
 def dashboard():
-    return render_template('dash.html')
+    saved = current_user.saved
+    withdrawn = current_user.withdrawn
+    data = {'saved':saved, 'withdrawn':withdraw}
+
+    acc_id = current_user.acc_id
+    acc = Account.query.filter_by(_id=acc_id).first()
+    balance = acc._amount
+    data['balance'] = balance
+    return render_template('dash.html', data=data)
 
 @main.route('/save', methods=['POST','GET'])
 @login_required

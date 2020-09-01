@@ -1,0 +1,21 @@
+{% extends "dashbase.html" %}
+
+{% block css %}
+<link rel="stylesheet" href="../static/css/dash.css" type='text/css' />
+{% endblock %}
+
+{% block title %}
+Dashboard
+{% endblock %} 
+
+{% block content %}
+<div class="location">
+    <label class="loc">Dashboard</label>
+</div>
+<div class="sn">
+    <label class="snl">Save Now</label>
+    <a href="{{ url_for('.save') }}" class="snb">
+        Click here</a>
+</div>
+
+{% endblock %}

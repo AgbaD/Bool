@@ -1,0 +1,41 @@
+div.location{
+    width: 100%;
+    background: white;
+    height: 40px;
+    border-left: 1px solid rgb(223, 219, 213);
+}
+label.loc{
+    color: inherit;
+    font-size: 20px;
+    line-height: 40px;
+    padding: 0 50px;
+}
+.sn{
+    margin: 30px 30px;
+    width: 40%;
+    background: rgba(45, 92, 88, 0.9);
+    height: 30%;
+    border-radius: 7px;
+    text-align: center;
+}
+.snl{
+    display: block;
+    font-family: "Poppins", sans-serif;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 28.8px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    color: white;
+    padding-top: 3px;
+}
+.sn a.snb{
+    display: block;
+    margin-top: 13%;
+    color: white;
+    background: #03a9f3;
+    border-radius: 4px;
+    width: 20%;
+    margin-left: 40%;
+    padding: 10px 20px;
+}
