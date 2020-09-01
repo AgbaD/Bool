@@ -16,7 +16,7 @@ def validate_pass(user, password):
 def gen_acc_id(user_id):
     acc_id = []
     user_id = str.encode(str(user_id))
-    while len(cash_id) < 5:
+    while len(acc_id) < 5:
         hashh = generate_password_hash(user_id)
         v = len(hashh)
         u = v-15

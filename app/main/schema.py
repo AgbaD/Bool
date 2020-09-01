@@ -30,7 +30,7 @@ userRegSchema = {
             "type":"string"
         },
         "phone":{
-            "type":"integer"
+            "type":"string"
         },
     },
     "required":["firstname","lastname","email","password"],

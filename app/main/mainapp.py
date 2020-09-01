@@ -133,7 +133,7 @@ def confirm(token):
 
 """Profiling"""
 @main.route('/dashboard')
-# @login_required
+@login_required
 def dashboard():
     saved = current_user.saved
     withdrawn = current_user.withdrawn

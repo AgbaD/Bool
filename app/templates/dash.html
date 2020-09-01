@@ -17,5 +17,10 @@ Dashboard
     <a href="{{ url_for('.save') }}" class="snb">
         Click here</a>
 </div>
-
+<div class="saved">
+    <label class="title">Saved</label>
+    <label class="amount">
+        {{ data['saved']}}
+    </label>
+</div>
 {% endblock %}
