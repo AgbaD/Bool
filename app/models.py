@@ -68,7 +68,7 @@ class Savings(UserMixin, db.Model):
     amount = db.Column(db.Integer)
     reference = db.Column(db.String(64))
     confirmed = db.Column(db.Boolean, default=False)
-    time = db.Column()
+    time = db.Column(db.Float)
 
 # a transactions db where primary key is user
 # and a dictionary of transactions with timestamps
