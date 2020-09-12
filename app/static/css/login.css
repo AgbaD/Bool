@@ -57,7 +57,6 @@ div.box .login .inputBx input{
     border: 1px solid rgba(255,255,255,0.3);
     background: transparent;
     padding: 5px 10px;
-    padding-left: 35px;
     border-radius: 5px;
     color: white;
     font-size: 16px;
@@ -67,10 +66,10 @@ div.box .login .inputBx input{
 div.box .login .inputBx input:focus{
     border: 2px solid white;
 }
-div.box .login .inputBx img{
+div.box .login .inputBx i{
     position: absolute;
     top: 5px;
-    left: 16%;
+    left: 20%;
     transform: scale(0.7);
     filter: invert(1);
 }
