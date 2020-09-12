@@ -158,7 +158,7 @@ def save():
         amount = request.form.get('amount')
         
         email = current_user.email
-        transact = new_transaction(email,amount)
+        transact = new_transaction(email, amount)
 
         if transact[0]:
             save = Savings(user=current_user.email,
