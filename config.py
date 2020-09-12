@@ -5,6 +5,7 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'sFDEd/sdsd/x/wsd-000/x343d?dsfsdf/sdsdsdsd\\sSJLD34sd'
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.googlemail.com')
@@ -22,19 +23,23 @@ class Config:
     def init_app(app):
         pass
 
+
 class Development(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     DEBUG = True
+
 
 class Testing(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
     TESTING = True
 
+
 class Production(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+
 
 config = {
     'development': Development,

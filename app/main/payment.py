@@ -21,7 +21,7 @@ def new_transaction(email, amount):
         reference = response['data']["reference"]
         return True,payment_url,reference
     else:
-        return False,""
+        return False,"",""
 
 def verify_transaction(reference):
     resp = Transaction.verify(reference=reference)

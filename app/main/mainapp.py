@@ -22,6 +22,7 @@ import re
 def index():
     return render_template('index.html')
 
+
 """Authentication"""
 @main.route("/login", methods=['GET','POST'])
 def login():
@@ -48,6 +49,7 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('.index'))
+
 
 @main.route('/register', methods=['GET','POST'])
 def register():
@@ -116,6 +118,7 @@ def create_acc(user_id):
     db.session.commit()
     return acc_id
 
+
 @main.route('/confirmtoken/<token>')
 @login_required
 def confirm(token):
@@ -131,6 +134,7 @@ def confirm(token):
 
 """Done with Authentication"""
 
+
 """Profiling"""
 @main.route('/dashboard')
 @login_required
@@ -144,6 +148,7 @@ def dashboard():
     balance = acc._amount
     data['balance'] = balance
     return render_template('dash.html', data=data)
+
 
 @main.route('/save', methods=['POST','GET'])
 @login_required
@@ -168,10 +173,12 @@ def save():
         return render_template('save_now.html')
     return render_template('save_now.html')
 
+
 @main.route('/savings')
 @login_required
 def savings():
     return render_template('savings.html') 
+
 
 @main.route('/plan', methods=['GET','POST'])
 @login_required
@@ -197,10 +204,12 @@ def plan():
             return redirect(url_for('.dashboard'))
     return render_template('create_plan.html')
 
+
 @main.route('/plans')
 @login_required
 def plans():
     return render_template('plans.html')
+
 
 @main.route('/withdraw',methods=['GET','POST'])
 @login_required
@@ -211,6 +220,7 @@ def withdraw():
         # complete view fuction
         return redirect(url_for('.dashboard'))
     return render_template('withdraw.html')
+
 
 @main.route('/profile')
 @login_required
