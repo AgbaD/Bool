@@ -9,10 +9,9 @@ from flask_login import login_user, logout_user
 # user created 
 from . import main
 from .. import db
-from ..models import Account, User, Plans, Savings
+from ..models import Account, User
 from ..generator import *
 from .schema import *
-from .payment import *
 
 # system
 import re
@@ -136,94 +135,48 @@ def confirm(token):
 
 
 """Profiling"""
-@main.route('/dashboard')
+@main.route('/dashboard', methods=['GET',"POST"])
 @login_required
 def dashboard():
+    if request.method == 'POST':
+        amount = request.form.get('amount')
+        user = current_user
+        user.saved += int(amount)
+        db.session.add(user)
+        db.session.commit()
+
+        saved = current_user.saved
+        withdrawn = current_user.withdrawn
+        data = {'saved': saved, 'withdrawn': withdrawn}
+        return render_template('dash.html', data=data)
     saved = current_user.saved
     withdrawn = current_user.withdrawn
-    data = {'saved':saved, 'withdrawn':withdrawn}
+    data = {'saved': saved, 'withdrawn': withdrawn}
 
-    acc_id = current_user.acc_id
-    acc = Account.query.filter_by(_id=acc_id).first()
-    balance = acc._amount
-    data['balance'] = balance
     return render_template('dash.html', data=data)
 
 
-@main.route('/save', methods=['POST','GET'])
+@main.route('/withdraw')
 @login_required
-def save():
-    if request.method == 'POST':
-        method = request.form.get('method')
-        amount = request.form.get('amount')
-        
-        email = current_user.email
-        transact = new_transaction(email, amount)
+def withd():
+    user = current_user
+    if user.saved >= 1000:
+        user.saved -= 1000
+        user.withdrawn += 1000
+        db.session.add(user)
+        db.session.commit()
+    else:
+        flash('You need to save more')
+        saved = current_user.saved
+        withdrawn = current_user.withdrawn
+        data = {'saved': saved, 'withdrawn': withdrawn}
 
-        if transact[0]:
-            save = Savings(user=current_user.email,
-                amount=amount,reference=transact[2])
-            # add transaction to transaction db
-            db.session.add(save)
-            db.session.commit()
-            flash('Account would be updated upon confirmation')
-            return render_template('payment.html', url=transact[1])
-        # should not happen
-        flash('Please Try Again')
-        return render_template('save_now.html')
-    return render_template('save_now.html')
-
-
-@main.route('/savings')
-@login_required
-def savings():
-    return render_template('savings.html') 
-
-
-@main.route('/plan', methods=['GET','POST'])
-@login_required
-def plan():
-    if request.method == 'POST':
-        title = request.form.get('title')
-        rate = request.form.get('rate')
-        interval = request.form.get('interval')
-        start = request.form.get('start')
-        stop = request.form.get('stop')
-
-        # create new plan with paystack
-        # if return is True
-        # add to db
-        if plan[0]:
-            plan = Plans(user=current_user.email,
-                title=title,rate=rate,interval=interval,
-                start=start,stop=stop)
-            db.session.add(plan)
-            db.session.commit()
-            # verify plans
-            # not sure yet but i yhink
-            return redirect(url_for('.dashboard'))
-    return render_template('create_plan.html')
-
-
-@main.route('/plans')
-@login_required
-def plans():
-    return render_template('plans.html')
-
-
-@main.route('/withdraw',methods=['GET','POST'])
-@login_required
-def withdraw():
-    if request.method == 'POST':
-        w_type = request.form.get('type')
-        amount = request.form.get('amount')
-        # complete view fuction
         return redirect(url_for('.dashboard'))
-    return render_template('withdraw.html')
 
+    saved = current_user.saved
+    withdrawn = current_user.withdrawn
+    data = {'saved': saved, 'withdrawn': withdrawn}
 
-@main.route('/profile')
-@login_required
-def profile():
-    return render_template('profile.html')
+    return render_template('dash.html', data=data)
+
 

@@ -1,38 +1,66 @@
-{% extends "dashbase.html" %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="../static/images/logo.png" />
 
-{% block css %}
-<link rel="stylesheet" href="../static/css/dash.css" type='text/css' />
-{% endblock %}
+        <!-- Meta -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Online wallet for cash and crypto" />
+        <meta http-equiv="author" content="Damilare Agbabiaka" />
+        <meta name="title" content="Bool; Online Wallet" />
+        <meta name="summary" content="Online wallet for cash and crypto" />
+        <meta name="language" content="English" />
+        <meta name="robots" content="index,follow" />
+        <meta name="Classification" content="commerce" />
+        <meta name="designer" content="Damilare Agbabiaka" />
+        <meta name="category" content="Online Banking">
+        <meta name="distribution" content="Global">
+        <meta name="rating" content="General">
 
-{% block title %}
-Dashboard
-{% endblock %} 
+        <!-- Css File -->
+        <link rel="stylesheet" href="../static/css/dash.css" type='text/css' />
 
-{% block content %}
-<div class="location">
-    <label class="loc">Dashboard</label>
-</div>
-<div class="sn">
-    <label class="snl">Quick Save</label>
-    <a href="{{ url_for('.save') }}" class="snb">
-        Start</a>
-</div>
-<div class="saved">
-    <label class="amount">
-        #{{ data['saved'] }}
-    </label>
-    <label class="title">Saved</label>
-</div>
-<div class="withdrawn">
-    <label class="amount">
-        #{{ data['withdrawn'] }}
-    </label>
-    <label class="title">Withdrawn</label>
-</div>
-<div class="balance">
-    <label class="amount">
-        #{{ data['balance'] }}
-    </label>
-    <label class="title">Balance</label>
-</div>
-{% endblock %}
+        <title>
+            Bool | Dashbord
+        </title>
+    </head>
+    <body>
+        <div class="top">
+           <label class="logo">Bool</label>
+            <a href="{{ url_for('.withd') }}">Withdraw(#1000)</a>
+           <a href="{{ url_for('.logout') }}">Logout</a>
+        </div>
+        {% for message in get_flashed_messages() %}
+        <div class="flash">
+            <button type="button" class="close">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
+        <div class="location">
+            <label class="loc">Dashboard</label>
+        </div>
+        <div class="sn">
+            <label class="snl">Quick Save</label>
+            <form action="" method="POST">
+                <p>Enter The amount you saved today</p>
+                <input type="text", name="amount" id="amount">
+                <button type="submit">Save</button>
+            </form>
+        </div>
+        <div class="saved">
+            <label class="amount">
+                #{{ data['saved'] }}
+            </label>
+            <label class="title">Saved</label>
+        </div>
+    <div class="withdrawn">
+            <label class="amount">
+                #{{ data['withdrawn'] }}
+            </label>
+            <label class="title">Withdrawn</label>
+        </div>
+    </body>
+</html>

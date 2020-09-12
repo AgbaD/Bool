@@ -50,26 +50,6 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User %r>' % self.email
 
-class Plans(UserMixin, db.Model):
-    __tablename__ = 'plans'
-    id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String(64))
-    title = db.Column(db.String(64))
-    rate = db.Column(db.Integer)
-    interval = db.Column(db.String)
-    stop = db.Column(db.String(64))
-    start = db.Column(db.String(64))
-    total_amount = db.Column(db.Integer)
-
-class Savings(UserMixin, db.Model):
-    __tablename__ = 'savings'
-    id = db.Column(db.Integer, primary_key=True)
-    user = db.Column(db.String(64))
-    amount = db.Column(db.Integer)
-    reference = db.Column(db.String(64))
-    confirmed = db.Column(db.Boolean, default=False)
-    time = db.Column(db.Float)
-
 # a transactions db where primary key is user
 # and a dictionary of transactions with timestamps
 # as keys

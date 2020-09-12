@@ -3,7 +3,6 @@
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from .models import User
 from flask import current_app
 
 def password_gen(password):
