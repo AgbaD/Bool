@@ -46,19 +46,19 @@
                 <input type="text", name="amount" id="amount">
                 <button type="submit">Save</button>
             </form>
+            <div>
+                <label class="amount">
+                    #{{ data['saved'] }}
+                    <label>Saved</label>
+                </label>
+            </div>
             <a href="{{ url_for('.withd') }}">Withdraw(#1000)</a>
-        </div>
-        <div class="saved">
-            <label class="amount">
-                #{{ data['saved'] }}
-            </label>
-            <label class="title">Saved</label>
-        </div>
-    <div class="withdrawn">
-            <label class="amount">
-                #{{ data['withdrawn'] }}
-            </label>
-            <label class="title">Withdrawn</label>
+            <div>
+                <label class="amount">
+                    #{{ data['withdrawn'] }}
+                    <label>Withdraw</label>
+                </label>
+            </div>
         </div>
     </body>
 </html>

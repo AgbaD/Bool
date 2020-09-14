@@ -46,9 +46,13 @@ div.sn label.snl{
     padding: 0 50px;
     font-weight: bold;
 }
+div.sn div{
+    padding: 10%;
+    margin: 10%;
+}
 div.sn form{
     width: 80%;
-    padding:20px 15px;
+    padding: 20px 15px;
 }
 div.sn form input{
     width: 80%;
@@ -57,16 +61,15 @@ div.flash{
     border: 1px solid rgb(223, 55, 55);
     background: rgba(85, 70, 70, 0.3);
 }
-div.saved, div.withdrawn{
-    background: white;
-    padding: 10%;
-    margin: 1% 10%;
-    height: 20vh;
-    width: 70%;
-    border-radius: 5px;
 
-}
-
-@media (max-width:1187px){
-
+@media (max-width:560px){
+    div.top label.logo{
+        font-size: 25px;
+        line-height: 40px;
+        padding: 0 20px;
+        font-weight: bold;
+    }
+    div.sn form input{
+        width: 50px;
+    }
 }
