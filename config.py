@@ -19,6 +19,9 @@ class Config:
     BOOL_ADMIN = os.environ.get('BOOL_ADMIN')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    SSL_DISABLE = True
+    
+
     @staticmethod
     def init_app(app):
         pass
@@ -40,10 +43,24 @@ class Production(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 
+class Heroku(Production):
+    @classmethod
+    def init_app(cls, app):
+        Production.init_app(app)
+        # log to stderr
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.WARNING)
+        app.logger.addHandler(file_handler)
 
+        SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
 config = {
     'development': Development,
     'testing': Testing,
     'production': Production,
-    'default': Development
+    'default': Development,
+    'heroku': Heroku
 }
