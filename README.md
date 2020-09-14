@@ -14,6 +14,6 @@ for today.
 
 PS: This is just your log :wink:
 ****
-[Link to app]()
+[Link to app](https://boolsave.herokuapp.com)
 
 Cheers.
