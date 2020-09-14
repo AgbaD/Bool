@@ -34,6 +34,10 @@ div.top a{
 }
 div.sn{
     background: rgb(45, 92, 88);
+    margin: 0 20%;
+    width: 55%;
+    border-radius: 6px;
+    height: 50vh;
 }
 div.sn label.snl{
     color: white;
@@ -43,10 +47,18 @@ div.sn label.snl{
     font-weight: bold;
 }
 div.sn form{
-    width: 50%;
+    width: 80%;
+    padding:20px 15px;
 }
 div.flash{
     border: 1px solid rgb(223, 55, 55);
-    background: rgba(207, 40, 40, 0.3);
+    background: rgba(85, 70, 70, 0.3);
+}
+div.saved, div.withdrawn{
+    background: white;
+    padding: 10;
+    height: 20vh;
+    width: 70%;
+    border-radius: 5px;
 }
 
