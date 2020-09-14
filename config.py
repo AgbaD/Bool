@@ -55,8 +55,7 @@ class Heroku(Production):
         app.logger.addHandler(file_handler)
 
         SSL_DISABLE = bool(os.environ.get('SSL_DISABLE'))
-        from werkzeug.contrib.fixers import ProxyFix
-        app.wsgi_app = ProxyFix(app.wsgi_app)
+        
 config = {
     'development': Development,
     'testing': Testing,
