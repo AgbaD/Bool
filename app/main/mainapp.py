@@ -141,7 +141,10 @@ def dashboard():
     if request.method == 'POST':
         amount = request.form.get('amount')
         user = current_user
-        user.saved += int(amount)
+        try:
+            user.saved += int(amount)
+        except:
+            flash('Invalid input')
         db.session.add(user)
         db.session.commit()
 

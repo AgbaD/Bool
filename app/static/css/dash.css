@@ -19,7 +19,7 @@ div.top label.logo{
     color: white;
     font-size: 35px;
     line-height: 50px;
-    padding: 0 50px;
+    padding: 0 30px;
     font-weight: bold;
 }
 div.top a{
@@ -41,8 +41,8 @@ div.sn{
 }
 div.sn label.snl{
     color: white;
-    font-size: 25px;
-    line-height: 50px;
+    font-size: 10px;
+    line-height: 30px;
     padding: 0 50px;
     font-weight: bold;
 }
@@ -50,15 +50,23 @@ div.sn form{
     width: 80%;
     padding:20px 15px;
 }
+div.sn form input{
+    width: 80%;
+}
 div.flash{
     border: 1px solid rgb(223, 55, 55);
     background: rgba(85, 70, 70, 0.3);
 }
 div.saved, div.withdrawn{
     background: white;
-    padding: 10;
+    padding: 10%;
+    margin: 1% 10%;
     height: 20vh;
     width: 70%;
     border-radius: 5px;
+
 }
 
+@media (max-width:1187px){
+
+}
