@@ -18,12 +18,14 @@ from rest_framework import status
 @api_view(['POST'])
 def create_tutor(request):
     data = request.data
+    data["email"] = data["email"].lower()
     resp = validate_tutor(data)
     if resp['msg'] != 'success':
         return Response(resp['error'], status=status.HTTP_400_BAD_REQUEST)
     user = User.objects.create_user(username=data["email"], email=data["email"], password=data["password"])
     user_id = user.pk
     data["user_id"] = user_id
+    del(data["password"])
     serializer = TutorSerializer(data=data)
     if serializer.is_valid():
         serializer.save()   
