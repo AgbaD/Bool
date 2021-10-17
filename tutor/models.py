@@ -1,4 +1,5 @@
 import ast
+import uuid
 from django.db import models
 
 # Create your models here.
@@ -9,10 +10,12 @@ class Tutor(models.Model):
     lastname = models.CharField(max_length=120)
     email = models.EmailField("email")
     verified = models.BooleanField(default=False)
-    rating = models.CharField(max_length=1300)  # a list of rating. Return mean of values
+    public_id = models.CharField(default=str(uuid.uuid4()), max_length=300)
+    rating = models.CharField("[]", max_length=1300)  # a list of rating. Return mean of values
     courses = models.TextField("[]")    # a list of courses offered
     user_id = models.IntegerField(default=1000000)
-    enrolled_courses = models.TextField("{}")   # a dict of courses enrolled {course_id: number_of_enrollment}
+    enrolled_courses = models.TextField("{}")   # a dict of courses enrolled {course_title: number_of_enrollment}
+    active = models.BooleanField(default=True)
 
     def add_course(self, course_id):
         self.courses = str(ast.literal_eval(self.courses).append(course_id))
@@ -23,12 +26,12 @@ class Tutor(models.Model):
     def get_courses(self):
         return ast.literal_eval(self.courses)
 
-    def add_enrolled_course(self, course_id):
+    def add_enrolled_course(self, course_title):
         e_c = ast.literal_eval(self.enrolled_courses)
-        if course_id in list(e_c.keys()):
-            e_c[course_id] += 1
+        if course_title in list(e_c.keys()):
+            e_c[course_title] += 1
         else:
-            e_c[course_id] = 1
+            e_c[course_title] = 1
         self.enrolled_courses = str(e_c)
 
     def get_enrolled_courses(self):
