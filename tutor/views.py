@@ -83,7 +83,7 @@ class Profile(APIView):
         return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
-class CustomAuthToken(ObtainAuthToken):
+class Login(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data,
