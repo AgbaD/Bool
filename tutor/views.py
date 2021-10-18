@@ -1,8 +1,8 @@
 from models import Tutor
 from django.http import Http404
-from schema import validate_tutor
-from serializer import TutorSerializer
 from django.contrib.auth.models import User
+from schema import validate_tutor, validate_course
+from serializer import TutorSerializer, CourseSerializer, CourseFilesSerializer
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -156,4 +156,30 @@ class AllCourses(APIView):
         courses = tutor.get_courses()
         return Response(courses, status=status.HTTP_200_OK)
 
+
+class CreateCourse(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        email = request.user.email
+        try:
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            return Http404
+        data = request.data
+        data['tutor_id'] = tutor.id
+        schema = validate_course(data)
+        if schema['msg'] != 'success':
+            return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = CourseSerializer(data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UploadCourseFiles(APIView):
+    pass
 

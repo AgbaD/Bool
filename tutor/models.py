@@ -48,3 +48,62 @@ class Tutor(models.Model):
         total, count = sum(rating), len(rating)
         return round(total/count, 1)
 
+
+class Course(models.Model):
+    title = models.CharField("Title", max_length=300)
+    description = models.TextField("description")
+    category = models.CharField("category", max_length=50)
+    tags = models.CharField("tags", max_length=130)     # list of tags
+    price = models.FloatField(default=0.0)
+    tutor = models.CharField("", max_length=200)
+    tutor_id = models.IntegerField(default=0)
+    public_id = models.CharField(default=str(uuid.uuid4()), max_length=300)
+    date_created = models.DateTimeField(auto_now_add=True)
+    discount = models.BooleanField(default=False)
+    discount_percentage = models.IntegerField(default=0)
+    rating = models.CharField("[]", max_length=1300)  # a list of rating. Return mean of values
+    # dict containing links to google drive containing each file
+    # module number as key and course files object as value
+    files = models.TextField("Course files")
+    students = models.TextField("List of student ids")
+
+    def add_tag(self, tag):
+        self.tags = str(ast.literal_eval(self.tags).append(tag))
+
+    def remove_tag(self, tag):
+        self.tags = str(ast.literal_eval(self.tags).remove(tag))
+
+    def add_discount(self, percentage):
+        self.discount = True
+        try:
+            self.discount_percentage = percentage
+        except Exception as e:
+            return e
+
+    def remove_discount(self):
+        self.discount = False
+        self.discount_percentage = 0
+
+    def add_files(self, module, file_object):
+        files = ast.literal_eval(self.files)
+        files[module] = file_object
+        self.files = str(files)
+
+    def remove_files(self, module):
+        files = ast.literal_eval(self.files)
+        del(files[module])
+        self.files = str(files)
+
+    def add_rating(self, rating):
+        self.rating = str(ast.literal_eval(self.rating).append(rating))
+
+    def get_rating(self):
+        rating = ast.literal_eval(self.rating)
+        total, count = sum(rating), len(rating)
+        return round(total/count, 1)
+
+
+class CourseFiles(models.Model):
+    course_id = models.IntegerField(default=0)
+    module = models.IntegerField(default=0)
+    link = models.CharField("file url", max_length=33)
