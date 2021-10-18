@@ -181,5 +181,19 @@ class CreateCourse(APIView):
 
 
 class UploadCourseFiles(APIView):
-    pass
+    """
+    {
+        1: [
+            "url1",
+            "url2",
+            ...
+        ],
+        2: [],
+        ...
+    }
+    """
+
+    def post(self, request, course_id):
+        data = request.data
+        data['course_id'] = course_id
 

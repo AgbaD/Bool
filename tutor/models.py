@@ -73,6 +73,9 @@ class Course(models.Model):
     def remove_tag(self, tag):
         self.tags = str(ast.literal_eval(self.tags).remove(tag))
 
+    def get_tags(self):
+        return ast.literal_eval(self.tags)
+
     def add_discount(self, percentage):
         self.discount = True
         try:
@@ -106,4 +109,13 @@ class Course(models.Model):
 class CourseFiles(models.Model):
     course_id = models.IntegerField(default=0)
     module = models.IntegerField(default=0)
-    link = models.CharField("file url", max_length=33)
+    links = models.CharField("file url", max_length=33)
+
+    def add_link(self, link):
+        self.links = str(ast.literal_eval(self.links).append(course_id))
+
+    def remove_course(self, course_id):
+        self.courses = str(ast.literal_eval(self.courses).remove(course_id))
+
+    def get_courses(self):
+        return ast.literal_eval(self.courses)
