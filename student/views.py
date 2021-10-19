@@ -3,7 +3,7 @@ from django.http import Http404
 from schema import validate_student
 from serializer import StudentSerializer
 from django.contrib.auth.models import User
-from tutor.models import Course, CourseFiles
+from tutor.models import Course, CourseFiles, Tutor
 from tutor.serializer import CourseSerializer, CourseFilesSerializer
 
 from rest_framework.authentication import TokenAuthentication
@@ -214,7 +214,7 @@ class CourseView(APIView):
 
     # pk is course primary key
     # enroll for a course
-    def post(self, request, pk):
+    def put(self, request, pk):
         course = self.get_object(pk)
         email = request.user.email
         student = Student.objects.get(email=email)
@@ -245,7 +245,7 @@ class FavCourseLike(APIView):
 
     # pk is the course primary key
     # add to fav course i.e like a course
-    def post(self, request, pk):
+    def put(self, request, pk):
         course = Course.objects.get(pk=pk)
         if not course:
             return Http404
@@ -268,3 +268,49 @@ class FavCourseAll(APIView):
         fav_courses = student.fav_courses.all()
         serializer = CourseSerializer(fav_courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class RateCourse(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # get rating
+    def get(self, request, pk):
+        course = Course.objects.get(pk=pk)
+        if not course:
+            return Http404
+        return Response({'rating': course.get_rating()}, status=status.HTTP_200_OK)
+
+    # add rating
+    def post(self, request, pk):
+        course = Course.objects.get(pk=pk)
+        if not course:
+            return Http404
+        rating = request.data['rating']
+        course.add_rating(rating)
+        course.save()
+        return Response({'details': 'Rating Updated'}, status=status.HTTP_200_OK)
+
+
+class RateTutor(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # get rating
+    def get(self, request, pk):
+        tutor = Tutor.objects.get(pk=pk)
+        if not tutor:
+            return Http404
+        return Response({'rating': tutor.get_rating()}, status=status.HTTP_200_OK)
+
+    # add rating
+    def post(self, request, pk):
+        tutor = Tutor.objects.get(pk=pk)
+        if not tutor:
+            return Http404
+        rating = request.data['rating']
+        tutor.add_rating(rating)
+        tutor.save()
+        return Response({'details': 'Rating Updated'}, status=status.HTTP_200_OK)
+
+
