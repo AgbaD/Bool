@@ -15,8 +15,8 @@ class Student(models.Model):
     user_id = models.IntegerField(default=10000000)
     active = models.BooleanField(default=True)
     # many to many relationship
-    courses = lastname
-    completed_courses = lastname
+    courses = models.ManyToManyField('tutor.Course', related_name='students')
+    fav_courses = models.ManyToManyField('tutor.Course', related_name='students')
     # a list of courses
     cart = models.TextField(default='[]')
     wishlist = models.TextField(default='[]')
@@ -30,6 +30,9 @@ class Student(models.Model):
     def remove_from_cart(self, course_id):
         self.cart = str(ast.literal_eval(self.cart).remove(course_id))
 
+    def get_cart(self):
+        return ast.literal_eval(self.cart)
+
     def clear_cart(self):
         self.cart = "[]"
 
@@ -38,6 +41,12 @@ class Student(models.Model):
 
     def remove_from_wishlist(self, course_id):
         self.wishlist = str(ast.literal_eval(self.wishlist).remove(course_id))
+
+    def get_wishlist(self):
+        return ast.literal_eval(self.wishlist)
+
+    def clear_wishlist(self):
+        self.wishlist = "[]"
 
 
 # class Notifications(models.Model):
