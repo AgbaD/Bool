@@ -11,7 +11,7 @@ class TutorSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ['id', 'title', 'description', 'category', 'tags', 'price', 'tutor', 'tutor_id']
+        fields = ['id', 'title', 'description', 'category', 'tags', 'price', 'tutor']
 
 
 class CourseFilesSerializer(serializers.ModelSerializer):

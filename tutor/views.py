@@ -1,6 +1,6 @@
-from models import Tutor
 from django.http import Http404
 from django.contrib.auth.models import User
+from models import Tutor, Course, CourseFiles
 from schema import validate_tutor, validate_course
 from serializer import TutorSerializer, CourseSerializer, CourseFilesSerializer
 
@@ -57,16 +57,12 @@ class Profile(APIView):
     def get(self, request):
         email = request.user.email
         tutor = self.get_object(email)
-        if not tutor.active:
-            return Http404
         serializer = TutorSerializer(tutor)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request):
         email = request.user.email
         tutor = self.get_object(email)
-        if not tutor.active:
-            return Http404
         serializer = TutorSerializer(tutor, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -76,8 +72,6 @@ class Profile(APIView):
     def delete(self, request):
         email = request.user.email
         tutor = self.get_object(email)
-        if not tutor.active:
-            return Http404
         tutor.active = False
         tutor.save()
         return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
@@ -142,19 +136,39 @@ class TopCourses(APIView):
         return Response(tc, status=status.HTTP_200_OK)
 
 
+class TutorRating(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self, email):
+        try:
+            return Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            return Http404
+
+    def get(self, request):
+        email = request.user.email
+        tutor = self.get_object(email=email)
+        return Response({'rating': tutor.get_rating()}, status=status.HTTP_200_OK)
+
+    def put(self, request):
+        email = request.user.email
+        tutor = self.get_object(email=email)
+        tutor.add_rating(request.data['rating'])
+        tutor.save()
+        return Response({'rating': tutor.get_rating()}, status=status.HTTP_200_OK)
+
+
 class AllCourses(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         email = request.user.email
-        try:
-            tutor = Tutor.objects.get(email=email)
-        except Tutor.DoesNotExist:
-            return Http404
-
-        courses = tutor.get_courses()
-        return Response(courses, status=status.HTTP_200_OK)
+        tutor = Tutor.objects.get(email=email)
+        courses = Course.objects.filter(tutor=tutor)
+        serializer = CourseSerializer(courses, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CreateCourse(APIView):
@@ -168,11 +182,11 @@ class CreateCourse(APIView):
         except Tutor.DoesNotExist:
             return Http404
         data = request.data
-        data['tutor_id'] = tutor.id
         schema = validate_course(data)
         if schema['msg'] != 'success':
             return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
 
+        data['tutor'] = tutor
         serializer = CourseSerializer(data)
         if serializer.is_valid():
             serializer.save()
@@ -180,20 +194,141 @@ class CreateCourse(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UploadCourseFiles(APIView):
-    """
-    {
-        1: [
-            "url1",
-            "url2",
-            ...
-        ],
-        2: [],
-        ...
-    }
-    """
+class CourseView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-    def post(self, request, course_id):
+    # pk is course primary key
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            return Http404
+
+    def get(self, request, pk):
+        course = self.get_object(pk)
+        tutor = Tutor.objects.get(email=request.user.email)
+        if course.tutor != tutor:
+            return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = CourseSerializer(course)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        course = self.get_object(pk)
+        tutor = Tutor.objects.get(email=request.user.email)
+        if course.tutor != tutor:
+            return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
+        serializer = CourseSerializer(course, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk):
+        course = self.get_object(pk)
+        tutor = Tutor.objects.get(email=request.user.email)
+        if course.tutor != tutor:
+            return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
+        course.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class CourseDiscount(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # pk is course primary key
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            return Http404
+
+    def put(self, request, pk):
+        course = self.get_object(pk)
+        tutor = Tutor.objects.get(email=request.user.email)
+        if course.tutor != tutor:
+            return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
         data = request.data
-        data['course_id'] = course_id
+        discount = data['percentage']
+        course.add_discount(discount)
+        course.save()
+        return Response({'detail': 'Discount added'}, status=status.HTTP_200_OK)
+
+    def delete(self, request, pk):
+        course = self.get_object(pk)
+        tutor = Tutor.objects.get(email=request.user.email)
+        if course.tutor != tutor:
+            return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
+        course.remove_discount()
+        course.save()
+        return Response({'detail': 'Discount removed'}, status=status.HTTP_200_OK)
+
+
+class CourseRating(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # pk is course primary key
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            return Http404
+
+    def get(self, request, pk):
+        course = self.get_object(pk)
+        tutor = Tutor.objects.get(email=request.user.email)
+        if course.tutor != tutor:
+            return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response({'rating': course.get_rating()}, status=status.HTTP_200_OK)
+
+    def put(self, request, pk):
+        course = self.get_object(pk)
+        tutor = Tutor.objects.get(email=request.user.email)
+        if course.tutor != tutor:
+            return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
+        course.add_rating(request.data['rating'])
+        course.save()
+        return Response({'rating': course.get_rating()}, status=status.HTTP_200_OK)
+
+
+class CourseFilesView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    # pk is course primary key
+    def get_object(self, pk):
+        try:
+            return Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            return Http404
+
+    def post(self, request, pk):
+        """
+            {
+                1: ["url1", ...],
+                2: [...],
+                ...
+            }
+        """
+        course = self.get_object(pk)
+        for k, v in request.data:
+            cf = CourseFiles(
+                course=course,
+                module=k
+            )
+            cf.save()
+            for link in v:
+                cf.add_link(link)
+            cf.save()
+        return Response({'details': 'OK'}, status=status.HTTP_200_OK)
+
+    def get(self, request, pk):
+        course = self.get_object(pk)
+        files = CourseFiles.objects.filter(course=course)
+        serializer = CourseFilesSerializer(files, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 

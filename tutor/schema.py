@@ -36,12 +36,9 @@ CourseModel = {
         },
         "tags": {
             'type': 'string'
-        },
-        "tutor": {
-            'type': 'string'
         }
     },
-    'required': ['title', 'description', 'category', 'price', 'tutor'],
+    'required': ['title', 'description', 'category', 'price'],
     'additionalProperties': False
 }
 
