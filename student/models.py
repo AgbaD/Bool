@@ -15,8 +15,8 @@ class Student(models.Model):
     user_id = models.IntegerField(default=10000000)
     active = models.BooleanField(default=True)
     # many to many relationship
-    courses = models.ManyToManyField('tutor.Course', related_name='students')
-    fav_courses = models.ManyToManyField('tutor.Course', related_name='students')
+    courses = models.ManyToManyField('tutor.Course', related_name='students', blank=True)
+    fav_courses = models.ManyToManyField('tutor.Course', related_name='students', blank=True)
     # a list of courses
     cart = models.TextField(default='[]')
     wishlist = models.TextField(default='[]')

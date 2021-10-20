@@ -50,7 +50,7 @@ class Course(models.Model):
     tags = models.CharField(default="", max_length=130)
     price = models.FloatField(default=0.0)
     # many courses to one tutor
-    tutor = models.ForeignKey(Tutor, on_delete=models.CASCADE)
+    tutor = models.ForeignKey(Tutor, blank=True, on_delete=models.CASCADE)
     public_id = models.CharField(default=str(uuid.uuid4()), max_length=300)
     date_created = models.DateTimeField(auto_now_add=True)
     discount = models.BooleanField(default=False)
@@ -84,7 +84,7 @@ class Course(models.Model):
 
 class CourseFiles(models.Model):
     # Many course files to one course
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, blank=True, on_delete=models.CASCADE)
     module = models.IntegerField(default=0)
     links = models.CharField(default="[]", max_length=33)
 
