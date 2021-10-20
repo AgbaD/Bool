@@ -1,8 +1,8 @@
 from django.http import Http404
 from django.contrib.auth.models import User
-from models import Tutor, Course, CourseFiles
-from schema import validate_tutor, validate_course
-from serializer import TutorSerializer, CourseSerializer, CourseFilesSerializer
+from .models import Tutor, Course, CourseFiles
+from .schema import validate_tutor, validate_course
+from .serializer import TutorSerializer, CourseSerializer, CourseFilesSerializer
 
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.views import ObtainAuthToken

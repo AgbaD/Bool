@@ -1,7 +1,7 @@
 from django.urls import path
-from views import Register, Login, Profile, RateTutor
-from views import WishList, Cart, CourseView, AllCourses
-from views import FavCourseLike, FavCourseAll, RateCourse
+from .views import Register, Login, Profile, RateTutor
+from .views import WishList, Cart, CourseView, AllCourses
+from .views import FavCourseLike, FavCourseAll, RateCourse
 
 urlpatterns = [
     path('cart/', Cart.as_view()),

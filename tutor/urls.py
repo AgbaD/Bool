@@ -1,7 +1,7 @@
 from django.urls import path
-from views import Register, Profile, Login, TutorRating
-from views import EnrolledCourses, TopCourses, AllCourses, CreateCourse
-from views import CourseView, CourseDiscount, CourseRating, CourseFilesView
+from .views import Register, Profile, Login, TutorRating
+from .views import EnrolledCourses, TopCourses, AllCourses, CreateCourse
+from .views import CourseView, CourseDiscount, CourseRating, CourseFilesView
 
 urlpatterns = [
     path('login/', Login.as_view()),

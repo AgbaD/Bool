@@ -1,7 +1,7 @@
-from models import Student
+from .models import Student
 from django.http import Http404
-from schema import validate_student
-from serializer import StudentSerializer
+from .schema import validate_student
+from .serializer import StudentSerializer
 from django.contrib.auth.models import User
 from tutor.models import Course, CourseFiles, Tutor
 from tutor.serializer import CourseSerializer, CourseFilesSerializer
@@ -222,6 +222,10 @@ class CourseView(APIView):
         if course in courses:
             return Response({'detail': 'You are already enrolled to this course'}, status=status.HTTP_200_OK)
         student.courses.add(course)
+        tutor = course.tutor
+        course_title = course.title
+        tutor.add_enrolled_course(course_title)
+        tutor.save()
         serializer = CourseSerializer(course)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
