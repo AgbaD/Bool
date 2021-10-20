@@ -24,7 +24,7 @@ class CourseView(APIView):
 class CategoryAll(APIView):
 
     def get(self, request):
-        categories = Course.objects.order_by('category').values_list('category', flat=True).distinct('city')
+        categories = Course.objects.order_by().values('category').distinct()
         return Response(list(categories), status=status.HTTP_200_OK)
 
 
