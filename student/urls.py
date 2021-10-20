@@ -11,9 +11,9 @@ urlpatterns = [
     path('wishlist/', WishList.as_view()),
     path('course/all/', AllCourses.as_view()),
     path('course/<int:pk>/', CourseView.as_view()),
-    path('course/like/all', FavCourseAll.as_view()),
-    path('course/<int:pk>/like', FavCourseLike.as_view()),
-    path('course/<int:pk>/rating', RateCourse.as_view()),
-    path('tutor/<int:pk>/rating', RateTutor.as_view()),
+    path('course/like/all/', FavCourseAll.as_view()),
+    path('tutor/<int:pk>/rating/', RateTutor.as_view()),
+    path('course/<int:pk>/rating/', RateCourse.as_view()),
+    path('course/<int:pk>/like/', FavCourseLike.as_view()),
 
 ]
