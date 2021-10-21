@@ -1,5 +1,5 @@
 # LMS
-A fully functional multi-tutor Learning management system API
+An API for a learning management system written with DjangoAn API for a learning management system written with Django
 
 ## URL
 
