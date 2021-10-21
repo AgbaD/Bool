@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Register, Profile, Login, TutorRating
+from .views import Register, Profile, Login, TutorRating, UpdatePassword
 from .views import EnrolledCourses, TopCourses, AllCourses, CreateCourse
 from .views import CourseView, CourseDiscount, CourseRating, CourseFilesView
 
@@ -12,6 +12,7 @@ urlpatterns = [
     path('profile/rating/', TutorRating.as_view()),
     path('courses/create/', CreateCourse.as_view()),
     path('courses/<int:pk>/', CourseView.as_view()),    # pk is course primary key
+    path('profile/password/', UpdatePassword.as_view()),
     path('courses/enrolled/', EnrolledCourses.as_view()),
     path('courses/<int:pk>/rating/', CourseRating.as_view()),   # pk is course primary key
     path('courses/<int:pk>/files/', CourseFilesView.as_view()),     # pk is course primary key

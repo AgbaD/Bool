@@ -16,7 +16,7 @@ class CourseView(APIView):
     def get(self, request, pk):
         course = Course.objects.get(pk=pk)
         if not course:
-            return Http404
+            raise Http404
         serializer = CourseSerializer(course)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -33,7 +33,7 @@ class CategoryCourses(APIView):
     def get(self, request, category):
         courses = Course.objects.filter(category=category)
         if not courses:
-            return Http404
+            raise Http404
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -43,7 +43,7 @@ class TutorView(APIView):
     def get(self, request, pk):
         tutor = Tutor.objects.get(pk=pk)
         if not tutor:
-            return Http404
+            raise Http404
         serializer = TutorSerializer(tutor)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -55,7 +55,7 @@ class TutorCourse(APIView):
         tutor = Tutor.objects.get(pk=pk)
         courses = tutor.course_set.all()
         if not courses:
-            return Http404
+            raise Http404
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

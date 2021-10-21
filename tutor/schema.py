@@ -13,6 +13,9 @@ TutorModel = {
         'email': {
             'type': 'string',
             'format': 'email'
+        },
+        'password': {
+            'type': 'string'
         }
     },
     'required': ['firstname', 'lastname', 'email'],
@@ -32,7 +35,7 @@ CourseModel = {
             'type': 'string'
         },
         "price": {
-            'type': 'float'
+            'type': 'number'
         },
         "tags": {
             'type': 'string'

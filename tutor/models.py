@@ -34,9 +34,6 @@ class Tutor(models.Model):
     def add_user_id(self, user_id):
         self.user_id = user_id
 
-    def add_rating(self, rating):
-        self.rating = str(ast.literal_eval(self.rating).append(rating))
-
     def get_rating(self):
         rating = ast.literal_eval(self.rating)
         total, count = sum(rating), len(rating)
@@ -73,9 +70,6 @@ class Course(models.Model):
         self.discount = False
         self.discount_percentage = 0
 
-    def add_rating(self, rating):
-        self.rating = str(ast.literal_eval(self.rating).append(rating))
-
     def get_rating(self):
         rating = ast.literal_eval(self.rating)
         total, count = sum(rating), len(rating)
@@ -91,8 +85,14 @@ class CourseFiles(models.Model):
     def __str__(self):
         return "%s \n Module %s" % (self.course, self.module)
 
-    def add_link(self, link):
-        self.links = str(ast.literal_eval(self.links).append(link))
+    def add_link(self, links):
+        print(ast.literal_eval(self.links))
+        if self.links == "[]":
+            self.links = str(links)
+        else:
+            lk = ast.literal_eval(self.links)
+            lk.extend(links)
+            self.links = lk
 
     def get_links(self):
         return ast.literal_eval(self.links)

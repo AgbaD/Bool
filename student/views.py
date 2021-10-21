@@ -29,7 +29,7 @@ class Register(APIView):
         if User.objects.filter(email=data['email']).exists():
             return Response({'detail': "Email has already been used"}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = StudentSerializer(data)
+        serializer = StudentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             user = User.objects.create_user(username=data['email'],
@@ -54,7 +54,7 @@ class Profile(APIView):
         try:
             return Student.objects.get(email=email)
         except Student.DoesNotExist:
-            return Http404
+            raise Http404
 
     # get profile
     def get(self, request):
@@ -108,7 +108,7 @@ class WishList(APIView):
         try:
             return Student.objects.get(email=email)
         except Student.DoesNotExist:
-            return Http404
+            raise Http404
 
     # get wishlist
     def get(self, request):
@@ -151,7 +151,7 @@ class Cart(APIView):
         try:
             return Student.objects.get(email=email)
         except Student.DoesNotExist:
-            return Http404
+            raise Http404
 
     # get cart
     def get(self, request):
@@ -194,7 +194,7 @@ class CourseView(APIView):
         try:
             return Course.objects.get(pk=pk)
         except Course.DoesNotExist:
-            return Http404
+            raise Http404
 
     # get course and course files
     def get(self, request, pk):
@@ -252,7 +252,7 @@ class FavCourseLike(APIView):
     def put(self, request, pk):
         course = Course.objects.get(pk=pk)
         if not course:
-            return Http404
+            raise Http404
         email = request.user.email
         student = Student.objects.get(email=email)
         fav_courses = student.fav_courses.all()
@@ -282,14 +282,14 @@ class RateCourse(APIView):
     def get(self, request, pk):
         course = Course.objects.get(pk=pk)
         if not course:
-            return Http404
+            raise Http404
         return Response({'rating': course.get_rating()}, status=status.HTTP_200_OK)
 
     # add rating
     def post(self, request, pk):
         course = Course.objects.get(pk=pk)
         if not course:
-            return Http404
+            raise Http404
         rating = request.data['rating']
         course.add_rating(rating)
         course.save()
@@ -304,14 +304,14 @@ class RateTutor(APIView):
     def get(self, request, pk):
         tutor = Tutor.objects.get(pk=pk)
         if not tutor:
-            return Http404
+            raise Http404
         return Response({'rating': tutor.get_rating()}, status=status.HTTP_200_OK)
 
     # add rating
     def post(self, request, pk):
         tutor = Tutor.objects.get(pk=pk)
         if not tutor:
-            return Http404
+            raise Http404
         rating = request.data['rating']
         tutor.add_rating(rating)
         tutor.save()
