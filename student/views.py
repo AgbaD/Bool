@@ -82,6 +82,18 @@ class Profile(APIView):
         return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
+class UpdatePassword(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def put(self, request):
+        password = request.data['password']
+        user = request.user
+        user.set_password(password)
+        user.save()
+        return Response({'detail': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
+
+
 class Login(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
@@ -89,7 +101,10 @@ class Login(ObtainAuthToken):
                                            context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        student = Student.objects.get(email=user['email'])
+        try:
+            student = Student.objects.get(email=user.email)
+        except Student.DoesNotExist:
+            raise Http404
         if not student.active:
             return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -117,7 +132,7 @@ class WishList(APIView):
         return Response({'wishlist': student.get_wishlist()}, status=status.HTTP_200_OK)
 
     # add to wishlist
-    def post(self, request):
+    def put(self, request):
         email = request.user.email
         course_id = request.data['course_id']
         student = self.get_object(email)
@@ -126,13 +141,6 @@ class WishList(APIView):
         return Response({'wishlist': student.get_wishlist()}, status=status.HTTP_200_OK)
 
     # remove from wishlist
-    def put(self, request):
-        email = request.user.email
-        course_id = request.data['course_id']
-        student = self.get_object(email)
-        student.remove_from_wishlist(course_id)
-        student.save()
-        return Response({'wishlist': student.get_wishlist()}, status=status.HTTP_200_OK)
 
     # clear wishlist
     def delete(self, request):
@@ -140,7 +148,7 @@ class WishList(APIView):
         student = self.get_object(email)
         student.clear_wishlist()
         student.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'detail': 'Wishlist cleared'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class Cart(APIView):
@@ -160,7 +168,7 @@ class Cart(APIView):
         return Response({'cart': student.get_cart()}, status=status.HTTP_200_OK)
 
     # add to cart
-    def post(self, request):
+    def put(self, request):
         email = request.user.email
         course_id = request.data['course_id']
         student = self.get_object(email)
@@ -169,13 +177,6 @@ class Cart(APIView):
         return Response({'cart': student.get_cart()}, status=status.HTTP_200_OK)
 
     # remove from cart
-    def put(self, request):
-        email = request.user.email
-        course_id = request.data['course_id']
-        student = self.get_object(email)
-        student.remove_from_cart(course_id)
-        student.save()
-        return Response({'cart': student.get_cart()}, status=status.HTTP_200_OK)
 
     # clear cart
     def delete(self, request):
@@ -183,7 +184,7 @@ class Cart(APIView):
         student = self.get_object(email)
         student.clear_cart()
         student.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'detail': 'Cart cleared'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class CourseView(APIView):

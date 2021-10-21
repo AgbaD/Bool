@@ -92,7 +92,7 @@ class CourseFiles(models.Model):
         else:
             lk = ast.literal_eval(self.links)
             lk.extend(links)
-            self.links = lk
+            self.links = str(lk)
 
     def get_links(self):
         return ast.literal_eval(self.links)

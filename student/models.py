@@ -25,10 +25,12 @@ class Student(models.Model):
         return "%s %s" % (self.firstname, self.lastname)
 
     def add_to_cart(self, course_id):
-        self.cart = str(ast.literal_eval(self.cart).append(course_id))
-
-    def remove_from_cart(self, course_id):
-        self.cart = str(ast.literal_eval(self.cart).remove(course_id))
+        if self.cart == '[]':
+            self.cart = str([course_id])
+        else:
+            ca = ast.literal_eval(self.cart)
+            ca.append(course_id)
+            self.cart = str(ca)
 
     def get_cart(self):
         return ast.literal_eval(self.cart)
@@ -37,10 +39,12 @@ class Student(models.Model):
         self.cart = "[]"
 
     def add_to_wishlist(self, course_id):
-        self.wishlist = str(ast.literal_eval(self.wishlist).append(course_id))
-
-    def remove_from_wishlist(self, course_id):
-        self.wishlist = str(ast.literal_eval(self.wishlist).remove(course_id))
+        if self.wishlist == '[]':
+            self.wishlist = str([course_id])
+        else:
+            wl = ast.literal_eval(self.wishlist)
+            wl.append(course_id)
+            self.wishlist = str(wl)
 
     def get_wishlist(self):
         return ast.literal_eval(self.wishlist)

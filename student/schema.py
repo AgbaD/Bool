@@ -14,6 +14,9 @@ StudentModel = {
             'type': 'string',
             'format': 'email'
         },
+        'password': {
+            'type': 'string'
+        },
         'phone': {
             'type': 'string'
         },
@@ -21,7 +24,7 @@ StudentModel = {
             'type': 'string'
         }
     },
-    'required': ['firstname', 'lastname', 'email', 'phone', 'headline'],
+    'required': ['firstname', 'lastname', 'email', 'password', 'headline'],
     'additionalProperties': False
 }
 

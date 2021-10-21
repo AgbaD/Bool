@@ -1,4 +1,3 @@
-import ast
 from django.http import Http404
 from django.contrib.auth.models import User
 from .models import Tutor, Course, CourseFiles
