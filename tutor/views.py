@@ -36,7 +36,10 @@ class Register(APIView):
                                             first_name=data['firstname'],
                                             last_name=data['lastname'])
             Token.objects.create(user=user)
-            tutor = Tutor.objects.get(email=data['email'])
+            try:
+                tutor = Tutor.objects.get(email=data['email'])
+            except Tutor.DoesNotExist:
+                raise Http404
             tutor.add_user_id(user.id)
             tutor.save()
             serializer_2 = TutorSerializer(tutor)
@@ -97,7 +100,10 @@ class Login(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         email = user.email
-        tutor = Tutor.objects.get(email=email)
+        try:
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            raise Http404
         if not tutor.active:
             return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
 
@@ -155,8 +161,9 @@ class TutorRating(APIView):
 
     def get(self, request):
         email = request.user.email
-        tutor = Tutor.objects.get(email=email)
-        if not tutor:
+        try:
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
             raise Http404
         return Response({'rating': tutor.get_rating()}, status=status.HTTP_200_OK)
 
@@ -167,8 +174,14 @@ class AllCourses(APIView):
 
     def get(self, request):
         email = request.user.email
-        tutor = Tutor.objects.get(email=email)
-        courses = Course.objects.filter(tutor=tutor)
+        try:
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            raise Http404
+        try:
+            courses = Course.objects.filter(tutor=tutor)
+        except Course.DoesNotExist:
+            raise Http404
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -209,7 +222,10 @@ class CourseView(APIView):
 
     def get(self, request, pk):
         course = self.get_object(pk)
-        tutor = Tutor.objects.get(email=request.user.email)
+        try:
+            tutor = Tutor.objects.get(email=request.user.email)
+        except Tutor.DoesNotExist:
+            raise Http404
         if course.tutor != tutor:
             return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = CourseSerializer(course)
@@ -217,7 +233,10 @@ class CourseView(APIView):
 
     def put(self, request, pk):
         course = self.get_object(pk)
-        tutor = Tutor.objects.get(email=request.user.email)
+        try:
+            tutor = Tutor.objects.get(email=request.user.email)
+        except Tutor.DoesNotExist:
+            raise Http404
         if course.tutor != tutor:
             return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
         serializer = CourseSerializer(course, data=request.data)
@@ -228,7 +247,10 @@ class CourseView(APIView):
 
     def delete(self, request, pk):
         course = self.get_object(pk)
-        tutor = Tutor.objects.get(email=request.user.email)
+        try:
+            tutor = Tutor.objects.get(email=request.user.email)
+        except Tutor.DoesNotExist:
+            raise Http404
         if course.tutor != tutor:
             return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
         course.delete()
@@ -248,7 +270,10 @@ class CourseDiscount(APIView):
 
     def put(self, request, pk):
         course = self.get_object(pk)
-        tutor = Tutor.objects.get(email=request.user.email)
+        try:
+            tutor = Tutor.objects.get(email=request.user.email)
+        except Tutor.DoesNotExist:
+            raise Http404
         if course.tutor != tutor:
             return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
         data = request.data
@@ -259,7 +284,10 @@ class CourseDiscount(APIView):
 
     def delete(self, request, pk):
         course = self.get_object(pk)
-        tutor = Tutor.objects.get(email=request.user.email)
+        try:
+            tutor = Tutor.objects.get(email=request.user.email)
+        except Tutor.DoesNotExist:
+            raise Http404
         if course.tutor != tutor:
             return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
         course.remove_discount()
@@ -280,7 +308,10 @@ class CourseRating(APIView):
 
     def get(self, request, pk):
         course = self.get_object(pk)
-        tutor = Tutor.objects.get(email=request.user.email)
+        try:
+            tutor = Tutor.objects.get(email=request.user.email)
+        except Tutor.DoesNotExist:
+            raise Http404
         if course.tutor != tutor:
             return Response({'detail': 'Unauthorized access'}, status=status.HTTP_401_UNAUTHORIZED)
         return Response({'rating': course.get_rating()}, status=status.HTTP_200_OK)
@@ -319,7 +350,10 @@ class CourseFilesView(APIView):
 
     def get(self, request, pk):
         course = self.get_object(pk)
-        files = CourseFiles.objects.filter(course=course)
+        try:
+            files = CourseFiles.objects.filter(course=course)
+        except CourseFiles.DoesNotExist:
+            raise Http404
         serializer = CourseFilesSerializer(files, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

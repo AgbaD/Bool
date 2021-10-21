@@ -14,8 +14,9 @@ from rest_framework import status
 class CourseView(APIView):
 
     def get(self, request, pk):
-        course = Course.objects.get(pk=pk)
-        if not course:
+        try:
+            course = Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
             raise Http404
         serializer = CourseSerializer(course)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -24,15 +25,19 @@ class CourseView(APIView):
 class CategoryAll(APIView):
 
     def get(self, request):
-        categories = Course.objects.order_by().values('category').distinct()
+        try:
+            categories = Course.objects.order_by().values('category').distinct()
+        except Course.DoesNotExist:
+            raise Http404
         return Response(list(categories), status=status.HTTP_200_OK)
 
 
 class CategoryCourses(APIView):
 
     def get(self, request, category):
-        courses = Course.objects.filter(category=category)
-        if not courses:
+        try:
+            courses = Course.objects.filter(category=category)
+        except Course.DoesNotExist:
             raise Http404
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -41,8 +46,9 @@ class CategoryCourses(APIView):
 class TutorView(APIView):
 
     def get(self, request, pk):
-        tutor = Tutor.objects.get(pk=pk)
-        if not tutor:
+        try:
+            tutor = Tutor.objects.get(pk=pk)
+        except Tutor.DoesNotExist:
             raise Http404
         serializer = TutorSerializer(tutor)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -52,10 +58,11 @@ class TutorCourse(APIView):
 
     # tutor public key
     def get(self, request, pk):
-        tutor = Tutor.objects.get(pk=pk)
-        courses = tutor.course_set.all()
-        if not courses:
+        try:
+            tutor = Tutor.objects.get(pk=pk)
+        except Tutor.DoesNotExist:
             raise Http404
+        courses = tutor.course_set.all()
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -63,7 +70,10 @@ class TutorCourse(APIView):
 class AllCourses(APIView):
 
     def get(self, request):
-        courses = Course.objects.all()
+        try:
+            courses = Course.objects.all()
+        except Course.DoesNotExist:
+            raise Http404
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -71,6 +81,9 @@ class AllCourses(APIView):
 class AllTutors(APIView):
 
     def get(self, request):
-        tutors = Tutor.objects.all()
+        try:
+            tutors = Tutor.objects.all()
+        except Tutor.DoesNotExist:
+            raise Http404
         serializer = TutorSerializer(tutors, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)

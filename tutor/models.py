@@ -11,7 +11,7 @@ class Tutor(models.Model):
     email = models.EmailField("email")
     verified = models.BooleanField(default=False)
     public_id = models.CharField(default=str(uuid.uuid4()), max_length=300)
-    rating = models.CharField(default="[1]", max_length=1300)  # a list of rating. Return mean of values
+    rating = models.CharField(default="[4]", max_length=1300)  # a list of rating. Return mean of values
     user_id = models.IntegerField(default=1000000)
     # a dict of courses enrolled {course_title: number_of_enrollment}
     enrolled_courses = models.TextField(default="{}")
@@ -34,6 +34,11 @@ class Tutor(models.Model):
     def add_user_id(self, user_id):
         self.user_id = user_id
 
+    def add_rating(self, rating):
+        rt = ast.literal_eval(self.rating)
+        rt.append(rating)
+        self.rating = str(rt)
+
     def get_rating(self):
         rating = ast.literal_eval(self.rating)
         total, count = sum(rating), len(rating)
@@ -53,7 +58,7 @@ class Course(models.Model):
     discount = models.BooleanField(default=False)
     discount_percentage = models.IntegerField(default=0)
     # a list of rating. Return mean of values
-    rating = models.CharField(default="[1]", max_length=1300)
+    rating = models.CharField(default="[4]", max_length=1300)
     # students = many to many relationship
 
     class Meta:
@@ -69,6 +74,11 @@ class Course(models.Model):
     def remove_discount(self):
         self.discount = False
         self.discount_percentage = 0
+
+    def add_rating(self, rating):
+        rt = ast.literal_eval(self.rating)
+        rt.append(rating)
+        self.rating = str(rt)
 
     def get_rating(self):
         rating = ast.literal_eval(self.rating)

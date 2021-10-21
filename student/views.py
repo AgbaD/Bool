@@ -38,7 +38,10 @@ class Register(APIView):
                                             first_name=data['firstname'],
                                             last_name=data['lastname'])
             Token.objects.create(user=user)
-            student = Student.objects.get(email=data['email'])
+            try:
+                student = Student.objects.get(email=data['email'])
+            except Student.DoesNotExist:
+                raise Http404
             student.user_id = user.id
             student.save()
             ser = StudentSerializer(student)
@@ -201,14 +204,18 @@ class CourseView(APIView):
     def get(self, request, pk):
         course = self.get_object(pk)
         email = request.user.email
-        student = Student.objects.get(email=email)
+        try:
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
         courses = student.courses.all()
         if course in courses:
             course_serializer = CourseSerializer(course)
-            file_serializer = None
-            files = CourseFiles.objects.filter(course=course)
-            if files:
-                file_serializer = CourseFilesSerializer(files, many=True)
+            try:
+                files = CourseFiles.objects.filter(course=course)
+            except CourseFiles.DoesNotExist:
+                raise Http404
+            file_serializer = CourseFilesSerializer(files, many=True)
             return Response({'course': course_serializer.data, 'files': file_serializer.data},
                             status=status.HTTP_200_OK)
         return Response({'details': 'You are not enrolled for this course'}, status=status.HTTP_400_BAD_REQUEST)
@@ -218,7 +225,10 @@ class CourseView(APIView):
     def put(self, request, pk):
         course = self.get_object(pk)
         email = request.user.email
-        student = Student.objects.get(email=email)
+        try:
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
         courses = student.courses.all()
         if course in courses:
             return Response({'detail': 'You are already enrolled to this course'}, status=status.HTTP_200_OK)
@@ -238,7 +248,10 @@ class AllCourses(APIView):
 
     def get(self, request):
         email = request.user.email
-        student = Student.objects.get(email=email)
+        try:
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
         courses = student.courses.all()
         serializer = CourseSerializer(courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -251,11 +264,17 @@ class FavCourseLike(APIView):
     # pk is the course primary key
     # add to fav course i.e like a course
     def put(self, request, pk):
-        course = Course.objects.get(pk=pk)
+        try:
+            course = Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
         if not course:
             raise Http404
         email = request.user.email
-        student = Student.objects.get(email=email)
+        try:
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
         fav_courses = student.fav_courses.all()
         if course in fav_courses:
             return Response({'detail': 'Course liked'}, status=status.HTTP_200_OK)
@@ -269,7 +288,10 @@ class FavCourseAll(APIView):
 
     def get(self, request):
         email = request.user.email
-        student = Student.objects.get(email=email)
+        try:
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
         fav_courses = student.fav_courses.all()
         serializer = CourseSerializer(fav_courses, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -281,15 +303,17 @@ class RateCourse(APIView):
 
     # get rating
     def get(self, request, pk):
-        course = Course.objects.get(pk=pk)
-        if not course:
+        try:
+            course = Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
             raise Http404
         return Response({'rating': course.get_rating()}, status=status.HTTP_200_OK)
 
     # add rating
     def post(self, request, pk):
-        course = Course.objects.get(pk=pk)
-        if not course:
+        try:
+            course = Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
             raise Http404
         rating = request.data['rating']
         course.add_rating(rating)
@@ -303,15 +327,17 @@ class RateTutor(APIView):
 
     # get rating
     def get(self, request, pk):
-        tutor = Tutor.objects.get(pk=pk)
-        if not tutor:
+        try:
+            tutor = Tutor.objects.get(pk=pk)
+        except Tutor.DoesNotExist:
             raise Http404
         return Response({'rating': tutor.get_rating()}, status=status.HTTP_200_OK)
 
     # add rating
     def post(self, request, pk):
-        tutor = Tutor.objects.get(pk=pk)
-        if not tutor:
+        try:
+            tutor = Tutor.objects.get(pk=pk)
+        except Tutor.DoesNotExist:
             raise Http404
         rating = request.data['rating']
         tutor.add_rating(rating)
