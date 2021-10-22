@@ -19,32 +19,36 @@ from rest_framework import status
 class Register(APIView):
 
     def post(self, request):
-        data = request.data
+        try:
+            data = request.data
 
-        schema = validate_tutor(data)
-        if schema['msg'] != 'success':
-            return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
-        if User.objects.filter(email=data['email']).exists():
-            return Response({'detail': "Email has already been used"}, status=status.HTTP_400_BAD_REQUEST)
+            schema = validate_tutor(data)
+            if schema['msg'] != 'success':
+                return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
+            if User.objects.filter(email=data['email']).exists():
+                return Response({'detail': "Email has already been used"}, status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = TutorSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            user = User.objects.create_user(username=data['email'],
-                                            email=data['email'],
-                                            password=data['password'],
-                                            first_name=data['firstname'],
-                                            last_name=data['lastname'])
-            Token.objects.create(user=user)
-            try:
-                tutor = Tutor.objects.get(email=data['email'])
-            except Tutor.DoesNotExist:
-                raise Http404
-            tutor.add_user_id(user.id)
-            tutor.save()
-            serializer_2 = TutorSerializer(tutor)
-            return Response(serializer_2.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer = TutorSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                user = User.objects.create_user(username=data['email'],
+                                                email=data['email'],
+                                                password=data['password'],
+                                                first_name=data['firstname'],
+                                                last_name=data['lastname'])
+                Token.objects.create(user=user)
+                try:
+                    tutor = Tutor.objects.get(email=data['email'])
+                except Tutor.DoesNotExist:
+                    raise Http404
+                tutor.add_user_id(user.id)
+                tutor.save()
+                serializer_2 = TutorSerializer(tutor)
+                return Response(serializer_2.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class Profile(APIView):
@@ -58,26 +62,38 @@ class Profile(APIView):
             raise Http404
 
     def get(self, request):
-        email = request.user.email
-        tutor = self.get_object(email)
-        serializer = TutorSerializer(tutor)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        try:
+            email = request.user.email
+            tutor = self.get_object(email)
+            serializer = TutorSerializer(tutor)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def put(self, request):
-        email = request.user.email
-        tutor = self.get_object(email)
-        serializer = TutorSerializer(tutor, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            email = request.user.email
+            tutor = self.get_object(email)
+            serializer = TutorSerializer(tutor, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def delete(self, request):
-        email = request.user.email
-        tutor = self.get_object(email)
-        tutor.active = False
-        tutor.save()
-        return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        try:
+            email = request.user.email
+            tutor = self.get_object(email)
+            tutor.active = False
+            tutor.save()
+            return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class UpdatePassword(APIView):
@@ -85,33 +101,41 @@ class UpdatePassword(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request):
-        password = request.data['password']
-        user = request.user
-        user.set_password(password)
-        user.save()
-        return Response({'detail': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
+        try:
+            password = request.data['password']
+            user = request.user
+            user.set_password(password)
+            user.save()
+            return Response({'detail': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class Login(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
-        serializer.is_valid(raise_exception=True)
-        user = serializer.validated_data['user']
-        email = user.email
         try:
-            tutor = Tutor.objects.get(email=email)
-        except Tutor.DoesNotExist:
-            raise Http404
-        if not tutor.active:
-            return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
+            serializer = self.serializer_class(data=request.data,
+                                               context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            email = user.email
+            try:
+                tutor = Tutor.objects.get(email=email)
+            except Tutor.DoesNotExist:
+                raise Http404
+            if not tutor.active:
+                return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
 
-        token, created = Token.objects.get_or_create(user=user)
-        return Response({
-            'detail': 'Login successful',
-            'token': token.key
-        })
+            token, created = Token.objects.get_or_create(user=user)
+            return Response({
+                'detail': 'Login successful',
+                'token': token.key
+            })
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class EnrolledCourses(APIView):
@@ -119,13 +143,17 @@ class EnrolledCourses(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        email = request.user.email
         try:
-            tutor = Tutor.objects.get(email=email)
-        except Tutor.DoesNotExist:
-            raise Http404
-        ec = tutor.get_enrolled_courses()
-        return Response(ec, status=status.HTTP_200_OK)
+            email = request.user.email
+            try:
+                tutor = Tutor.objects.get(email=email)
+            except Tutor.DoesNotExist:
+                raise Http404
+            ec = tutor.get_enrolled_courses()
+            return Response(ec, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TopCourses(APIView):
@@ -133,26 +161,30 @@ class TopCourses(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        email = request.user.email
         try:
-            tutor = Tutor.objects.get(email=email)
-        except Tutor.DoesNotExist:
-            raise Http404
-        ec = tutor.get_enrolled_courses()
+            email = request.user.email
+            try:
+                tutor = Tutor.objects.get(email=email)
+            except Tutor.DoesNotExist:
+                raise Http404
+            ec = tutor.get_enrolled_courses()
 
-        tc = {}
-        for k, v in ec.items():
-            if len(tc) < 3:
-                tc[k] = v
-
-        for k, v in ec.items():
-            for o, p in tc.items():
-                if v > p:
-                    del(tc[o])
+            tc = {}
+            for k, v in ec.items():
+                if len(tc) < 3:
                     tc[k] = v
-                    break
 
-        return Response(tc, status=status.HTTP_200_OK)
+            for k, v in ec.items():
+                for o, p in tc.items():
+                    if v > p:
+                        del(tc[o])
+                        tc[k] = v
+                        break
+
+            return Response(tc, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TutorRating(APIView):
@@ -191,22 +223,26 @@ class CreateCourse(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        email = request.user.email
         try:
-            tutor = Tutor.objects.get(email=email)
-        except Tutor.DoesNotExist:
-            raise Http404
-        data = request.data
-        schema = validate_course(data)
-        if schema['msg'] != 'success':
-            return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
+            email = request.user.email
+            try:
+                tutor = Tutor.objects.get(email=email)
+            except Tutor.DoesNotExist:
+                raise Http404
+            data = request.data
+            schema = validate_course(data)
+            if schema['msg'] != 'success':
+                return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
 
-        data['tutor'] = tutor.id
-        serializer = CourseSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            data['tutor'] = tutor.id
+            serializer = CourseSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class CourseView(APIView):
@@ -336,17 +372,21 @@ class CourseFilesView(APIView):
                 ...
             }
         """
-        course = self.get_object(pk)
-        for k, v in request.data.items():
-            cf = CourseFiles(
-                course=course,
-                module=k
-            )
-            cf.save()
-            links = [link for link in v]
-            cf.add_link(links)
-            cf.save()
-        return Response({'details': 'OK'}, status=status.HTTP_200_OK)
+        try:
+            course = self.get_object(pk)
+            for k, v in request.data.items():
+                cf = CourseFiles(
+                    course=course,
+                    module=k
+                )
+                cf.save()
+                links = [link for link in v]
+                cf.add_link(links)
+                cf.save()
+            return Response({'details': 'OK'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def get(self, request, pk):
         course = self.get_object(pk)

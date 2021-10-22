@@ -36,22 +36,29 @@ class CategoryCourses(APIView):
 
     def get(self, request, category):
         try:
-            courses = Course.objects.filter(category=category)
-        except Course.DoesNotExist:
-            raise Http404
-        serializer = CourseSerializer(courses, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
+            try:
+                courses = Course.objects.filter(category=category)
+            except Course.DoesNotExist:
+                raise Http404
+            serializer = CourseSerializer(courses, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class TutorView(APIView):
 
     def get(self, request, pk):
         try:
-            tutor = Tutor.objects.get(pk=pk)
-        except Tutor.DoesNotExist:
-            raise Http404
-        serializer = TutorSerializer(tutor)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                tutor = Tutor.objects.get(pk=pk)
+            except Tutor.DoesNotExist:
+                raise Http404
+            serializer = TutorSerializer(tutor)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class TutorCourse(APIView):
@@ -59,31 +66,43 @@ class TutorCourse(APIView):
     # tutor public key
     def get(self, request, pk):
         try:
-            tutor = Tutor.objects.get(pk=pk)
-        except Tutor.DoesNotExist:
-            raise Http404
-        courses = tutor.course_set.all()
-        serializer = CourseSerializer(courses, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                tutor = Tutor.objects.get(pk=pk)
+            except Tutor.DoesNotExist:
+                raise Http404
+            courses = tutor.course_set.all()
+            serializer = CourseSerializer(courses, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class AllCourses(APIView):
 
     def get(self, request):
         try:
-            courses = Course.objects.all()
-        except Course.DoesNotExist:
-            raise Http404
-        serializer = CourseSerializer(courses, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                courses = Course.objects.all()
+            except Course.DoesNotExist:
+                raise Http404
+            serializer = CourseSerializer(courses, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class AllTutors(APIView):
 
     def get(self, request):
         try:
-            tutors = Tutor.objects.all()
-        except Tutor.DoesNotExist:
-            raise Http404
-        serializer = TutorSerializer(tutors, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                tutors = Tutor.objects.all()
+            except Tutor.DoesNotExist:
+                raise Http404
+            serializer = TutorSerializer(tutors, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
+                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
