@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 import os
+import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -27,7 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY') or '780xm98h6yycxz%2tu00qmmn2+s6kgzj^ajcc$5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['blanklms.herokuapp.com']
 
 
 # Application definition
@@ -130,3 +131,6 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+prod_db = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(prod_db)
