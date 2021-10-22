@@ -120,26 +120,22 @@ class UpdatePassword(APIView):
 class Login(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
         try:
-            serializer = self.serializer_class(data=request.data,
-                                               context={'request': request})
-            serializer.is_valid(raise_exception=True)
-            user = serializer.validated_data['user']
-            try:
-                student = Student.objects.get(email=user.email)
-            except Student.DoesNotExist:
-                raise Http404
-            if not student.active:
-                return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
+            student = Student.objects.get(email=user.email)
+        except Student.DoesNotExist:
+            raise Http404
+        if not student.active:
+            return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
 
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                'detail': 'Login successful',
-                'token': token.key
-            })
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'detail': 'Login successful',
+            'token': token.key
+        })
 
 
 class WishList(APIView):

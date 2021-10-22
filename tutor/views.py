@@ -115,27 +115,23 @@ class UpdatePassword(APIView):
 class Login(ObtainAuthToken):
 
     def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        email = user.email
         try:
-            serializer = self.serializer_class(data=request.data,
-                                               context={'request': request})
-            serializer.is_valid(raise_exception=True)
-            user = serializer.validated_data['user']
-            email = user.email
-            try:
-                tutor = Tutor.objects.get(email=email)
-            except Tutor.DoesNotExist:
-                raise Http404
-            if not tutor.active:
-                return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            raise Http404
+        if not tutor.active:
+            return Response({'detail': 'Account not found'}, status=status.HTTP_404_NOT_FOUND)
 
-            token, created = Token.objects.get_or_create(user=user)
-            return Response({
-                'detail': 'Login successful',
-                'token': token.key
-            })
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'detail': 'Login successful',
+            'token': token.key
+        })
 
 
 class EnrolledCourses(APIView):
