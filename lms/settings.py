@@ -28,8 +28,7 @@ SECRET_KEY = os.getenv('SECRET_KEY') or '780xm98h6yycxz%2tu00qmmn2+s6kgzj^ajcc$5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#  ALLOWED_HOSTS = ['blanklms.herokuapp.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['blanklms.herokuapp.com']
 
 # Application definition
 
