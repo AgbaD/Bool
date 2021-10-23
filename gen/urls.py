@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CourseView, CategoryAll, AllCourses
+from .views import CourseView, CategoryAll, AllCourses, Ping
 from .views import CategoryCourses, TutorView, TutorCourse, AllTutors
 
 urlpatterns = [
@@ -10,4 +10,6 @@ urlpatterns = [
     path('tutor/<int:pk>/', TutorView.as_view()),
     path('course/all/', AllCourses.as_view()),
     path('tutor/all/', AllTutors.as_view()),
+    path('', Ping.as_view()),
+
 ]

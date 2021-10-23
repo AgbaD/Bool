@@ -21,36 +21,32 @@ class Register(APIView):
 
     # create account
     def post(self, request):
-        try:
-            data = request.data
+        data = request.data
 
-            schema = validate_student(data)
-            if schema['msg'] != 'success':
-                return Response({'details': schema['error']}, status=status.HTTP_400_BAD_REQUEST)
-            if User.objects.filter(email=data['email']).exists():
-                return Response({'detail': "Email has already been used"}, status=status.HTTP_400_BAD_REQUEST)
+        schema = validate_student(data)
+        if schema['msg'] != 'success':
+            return Response({'details': schema['error']}, status=status.HTTP_400_BAD_REQUEST)
+        if User.objects.filter(email=data['email']).exists():
+            return Response({'detail': "Email has already been used"}, status=status.HTTP_400_BAD_REQUEST)
 
-            serializer = StudentSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                user = User.objects.create_user(username=data['email'],
-                                                email=data['email'],
-                                                password=data['password'],
-                                                first_name=data['firstname'],
-                                                last_name=data['lastname'])
-                Token.objects.create(user=user)
-                try:
-                    student = Student.objects.get(email=data['email'])
-                except Student.DoesNotExist:
-                    raise Http404
-                student.user_id = user.id
-                student.save()
-                ser = StudentSerializer(student)
-                return Response(ser.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        serializer = StudentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            user = User.objects.create_user(username=data['email'],
+                                            email=data['email'],
+                                            password=data['password'],
+                                            first_name=data['firstname'],
+                                            last_name=data['lastname'])
+            Token.objects.create(user=user)
+            try:
+                student = Student.objects.get(email=data['email'])
+            except Student.DoesNotExist:
+                raise Http404
+            student.user_id = user.id
+            student.save()
+            ser = StudentSerializer(student)
+            return Response(ser.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class Profile(APIView):
@@ -65,40 +61,28 @@ class Profile(APIView):
 
     # get profile
     def get(self, request):
-        try:
-            email = request.user.email
-            student = self.get_object(email)
-            serializer = StudentSerializer(student)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        student = self.get_object(email)
+        serializer = StudentSerializer(student)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # edit profile
     def put(self, request):
-        try:
-            email = request.user.email
-            student = self.get_object(email)
-            serializer = StudentSerializer(student, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        student = self.get_object(email)
+        serializer = StudentSerializer(student, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     # delete or deactivate profile
     def delete(self, request):
-        try:
-            email = request.user.email
-            student = self.get_object(email)
-            student.active = False
-            student.save()
-            return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        student = self.get_object(email)
+        student.active = False
+        student.save()
+        return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class UpdatePassword(APIView):
@@ -106,15 +90,11 @@ class UpdatePassword(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request):
-        try:
-            password = request.data['password']
-            user = request.user
-            user.set_password(password)
-            user.save()
-            return Response({'detail': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        password = request.data['password']
+        user = request.user
+        user.set_password(password)
+        user.save()
+        return Response({'detail': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
 
 
 class Login(ObtainAuthToken):
@@ -150,41 +130,26 @@ class WishList(APIView):
 
     # get wishlist
     def get(self, request):
-        try:
-            email = request.user.email
-            student = self.get_object(email)
-            return Response({'wishlist': student.get_wishlist()}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        student = self.get_object(email)
+        return Response({'wishlist': student.get_wishlist()}, status=status.HTTP_200_OK)
 
     # add to wishlist
     def put(self, request):
-        try:
-            email = request.user.email
-            course_id = request.data['course_id']
-            student = self.get_object(email)
-            student.add_to_wishlist(course_id)
-            student.save()
-            return Response({'wishlist': student.get_wishlist()}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    # remove from wishlist
+        email = request.user.email
+        course_id = request.data['course_id']
+        student = self.get_object(email)
+        student.add_to_wishlist(course_id)
+        student.save()
+        return Response({'wishlist': student.get_wishlist()}, status=status.HTTP_200_OK)
 
     # clear wishlist
     def delete(self, request):
-        try:
-            email = request.user.email
-            student = self.get_object(email)
-            student.clear_wishlist()
-            student.save()
-            return Response({'detail': 'Wishlist cleared'}, status=status.HTTP_204_NO_CONTENT)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        email = request.user.email
+        student = self.get_object(email)
+        student.clear_wishlist()
+        student.save()
+        return Response({'detail': 'Wishlist cleared'}, status=status.HTTP_204_NO_CONTENT)
 
 class Cart(APIView):
     authentication_classes = [TokenAuthentication]
@@ -198,40 +163,26 @@ class Cart(APIView):
 
     # get cart
     def get(self, request):
-        try:
-            email = request.user.email
-            student = self.get_object(email)
-            return Response({'cart': student.get_cart()}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        student = self.get_object(email)
+        return Response({'cart': student.get_cart()}, status=status.HTTP_200_OK)
 
     # add to cart
     def put(self, request):
-        try:
-            email = request.user.email
-            course_id = request.data['course_id']
-            student = self.get_object(email)
-            student.add_to_cart(course_id)
-            student.save()
-            return Response({'cart': student.get_cart()}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-    # remove from cart
+        email = request.user.email
+        course_id = request.data['course_id']
+        student = self.get_object(email)
+        student.add_to_cart(course_id)
+        student.save()
+        return Response({'cart': student.get_cart()}, status=status.HTTP_200_OK)
 
     # clear cart
     def delete(self, request):
-        try:
-            email = request.user.email
-            student = self.get_object(email)
-            student.clear_cart()
-            student.save()
-            return Response({'detail': 'Cart cleared'}, status=status.HTTP_204_NO_CONTENT)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        student = self.get_object(email)
+        student.clear_cart()
+        student.save()
+        return Response({'detail': 'Cart cleared'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class CourseView(APIView):
@@ -246,51 +197,43 @@ class CourseView(APIView):
 
     # get course and course files
     def get(self, request, pk):
+        course = self.get_object(pk)
+        email = request.user.email
         try:
-            course = self.get_object(pk)
-            email = request.user.email
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
+        courses = student.courses.all()
+        if course in courses:
+            course_serializer = CourseSerializer(course)
             try:
-                student = Student.objects.get(email=email)
-            except Student.DoesNotExist:
+                files = CourseFiles.objects.filter(course=course)
+            except CourseFiles.DoesNotExist:
                 raise Http404
-            courses = student.courses.all()
-            if course in courses:
-                course_serializer = CourseSerializer(course)
-                try:
-                    files = CourseFiles.objects.filter(course=course)
-                except CourseFiles.DoesNotExist:
-                    raise Http404
-                file_serializer = CourseFilesSerializer(files, many=True)
-                return Response({'course': course_serializer.data, 'files': file_serializer.data},
-                                status=status.HTTP_200_OK)
-            return Response({'details': 'You are not enrolled for this course'}, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            file_serializer = CourseFilesSerializer(files, many=True)
+            return Response({'course': course_serializer.data, 'files': file_serializer.data},
+                            status=status.HTTP_200_OK)
+        return Response({'details': 'You are not enrolled for this course'}, status=status.HTTP_400_BAD_REQUEST)
 
     # pk is course primary key
     # enroll for a course
     def put(self, request, pk):
+        course = self.get_object(pk)
+        email = request.user.email
         try:
-            course = self.get_object(pk)
-            email = request.user.email
-            try:
-                student = Student.objects.get(email=email)
-            except Student.DoesNotExist:
-                raise Http404
-            courses = student.courses.all()
-            if course in courses:
-                return Response({'detail': 'You are already enrolled to this course'}, status=status.HTTP_200_OK)
-            student.courses.add(course)
-            tutor = course.tutor
-            course_title = course.title
-            tutor.add_enrolled_course(course_title)
-            tutor.save()
-            serializer = CourseSerializer(course)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
+        courses = student.courses.all()
+        if course in courses:
+            return Response({'detail': 'You are already enrolled to this course'}, status=status.HTTP_200_OK)
+        student.courses.add(course)
+        tutor = course.tutor
+        course_title = course.title
+        tutor.add_enrolled_course(course_title)
+        tutor.save()
+        serializer = CourseSerializer(course)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 # all courses a student is enrolled to
@@ -299,18 +242,14 @@ class AllCourses(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        email = request.user.email
         try:
-            email = request.user.email
-            try:
-                student = Student.objects.get(email=email)
-            except Student.DoesNotExist:
-                raise Http404
-            courses = student.courses.all()
-            serializer = CourseSerializer(courses, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
+        courses = student.courses.all()
+        serializer = CourseSerializer(courses, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class FavCourseLike(APIView):
@@ -343,18 +282,14 @@ class FavCourseAll(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        email = request.user.email
         try:
-            email = request.user.email
-            try:
-                student = Student.objects.get(email=email)
-            except Student.DoesNotExist:
-                raise Http404
-            fav_courses = student.fav_courses.all()
-            serializer = CourseSerializer(fav_courses, many=True)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            student = Student.objects.get(email=email)
+        except Student.DoesNotExist:
+            raise Http404
+        fav_courses = student.fav_courses.all()
+        serializer = CourseSerializer(fav_courses, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class RateCourse(APIView):
@@ -372,17 +307,13 @@ class RateCourse(APIView):
     # add rating
     def post(self, request, pk):
         try:
-            try:
-                course = Course.objects.get(pk=pk)
-            except Course.DoesNotExist:
-                raise Http404
-            rating = request.data['rating']
-            course.add_rating(rating)
-            course.save()
-            return Response({'details': 'Rating Updated'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            course = Course.objects.get(pk=pk)
+        except Course.DoesNotExist:
+            raise Http404
+        rating = request.data['rating']
+        course.add_rating(rating)
+        course.save()
+        return Response({'details': 'Rating Updated'}, status=status.HTTP_200_OK)
 
 
 class RateTutor(APIView):
@@ -400,19 +331,14 @@ class RateTutor(APIView):
     # add rating
     def post(self, request, pk):
         try:
-            try:
-                tutor = Tutor.objects.get(pk=pk)
-            except Tutor.DoesNotExist:
-                raise Http404
-            rating = request.data['rating']
-            if rating > 5:
-                return Response({'detail': "Rating should be between 1 and 5"}, status=status.HTTP_400_BAD_REQUEST)
+            tutor = Tutor.objects.get(pk=pk)
+        except Tutor.DoesNotExist:
+            raise Http404
+        rating = request.data['rating']
+        if rating > 5:
+            return Response({'detail': "Rating should be between 1 and 5"}, status=status.HTTP_400_BAD_REQUEST)
 
-            tutor.add_rating(rating)
-            tutor.save()
-            return Response({'details': 'Rating Updated'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        tutor.add_rating(rating)
+        tutor.save()
+        return Response({'details': 'Rating Updated'}, status=status.HTTP_200_OK)
 

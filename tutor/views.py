@@ -58,38 +58,26 @@ class Profile(APIView):
             raise Http404
 
     def get(self, request):
-        try:
-            email = request.user.email
-            tutor = self.get_object(email)
-            serializer = TutorSerializer(tutor)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        tutor = self.get_object(email)
+        serializer = TutorSerializer(tutor)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request):
-        try:
-            email = request.user.email
-            tutor = self.get_object(email)
-            serializer = TutorSerializer(tutor, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        tutor = self.get_object(email)
+        serializer = TutorSerializer(tutor, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request):
-        try:
-            email = request.user.email
-            tutor = self.get_object(email)
-            tutor.active = False
-            tutor.save()
-            return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email = request.user.email
+        tutor = self.get_object(email)
+        tutor.active = False
+        tutor.save()
+        return Response({'detail': 'Account deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class UpdatePassword(APIView):
@@ -97,15 +85,11 @@ class UpdatePassword(APIView):
     permission_classes = [IsAuthenticated]
 
     def put(self, request):
-        try:
-            password = request.data['password']
-            user = request.user
-            user.set_password(password)
-            user.save()
-            return Response({'detail': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        password = request.data['password']
+        user = request.user
+        user.set_password(password)
+        user.save()
+        return Response({'detail': 'Password Changed Successfully'}, status=status.HTTP_200_OK)
 
 
 class Login(ObtainAuthToken):
@@ -135,17 +119,13 @@ class EnrolledCourses(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        email = request.user.email
         try:
-            email = request.user.email
-            try:
-                tutor = Tutor.objects.get(email=email)
-            except Tutor.DoesNotExist:
-                raise Http404
-            ec = tutor.get_enrolled_courses()
-            return Response(ec, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            raise Http404
+        ec = tutor.get_enrolled_courses()
+        return Response(ec, status=status.HTTP_200_OK)
 
 
 class TopCourses(APIView):
@@ -153,30 +133,26 @@ class TopCourses(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        email = request.user.email
         try:
-            email = request.user.email
-            try:
-                tutor = Tutor.objects.get(email=email)
-            except Tutor.DoesNotExist:
-                raise Http404
-            ec = tutor.get_enrolled_courses()
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            raise Http404
+        ec = tutor.get_enrolled_courses()
 
-            tc = {}
-            for k, v in ec.items():
-                if len(tc) < 3:
+        tc = {}
+        for k, v in ec.items():
+            if len(tc) < 3:
+                tc[k] = v
+
+        for k, v in ec.items():
+            for o, p in tc.items():
+                if v > p:
+                    del(tc[o])
                     tc[k] = v
+                    break
 
-            for k, v in ec.items():
-                for o, p in tc.items():
-                    if v > p:
-                        del(tc[o])
-                        tc[k] = v
-                        break
-
-            return Response(tc, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(tc, status=status.HTTP_200_OK)
 
 
 class TutorRating(APIView):
@@ -215,26 +191,22 @@ class CreateCourse(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        email = request.user.email
         try:
-            email = request.user.email
-            try:
-                tutor = Tutor.objects.get(email=email)
-            except Tutor.DoesNotExist:
-                raise Http404
-            data = request.data
-            schema = validate_course(data)
-            if schema['msg'] != 'success':
-                return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
+            tutor = Tutor.objects.get(email=email)
+        except Tutor.DoesNotExist:
+            raise Http404
+        data = request.data
+        schema = validate_course(data)
+        if schema['msg'] != 'success':
+            return Response(schema['error'], status=status.HTTP_400_BAD_REQUEST)
 
-            data['tutor'] = tutor.id
-            serializer = CourseSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        data['tutor'] = tutor.id
+        serializer = CourseSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CourseView(APIView):
@@ -364,21 +336,17 @@ class CourseFilesView(APIView):
                 ...
             }
         """
-        try:
-            course = self.get_object(pk)
-            for k, v in request.data.items():
-                cf = CourseFiles(
-                    course=course,
-                    module=k
-                )
-                cf.save()
-                links = [link for link in v]
-                cf.add_link(links)
-                cf.save()
-            return Response({'details': 'OK'}, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response({"details": "Error! Something went wrong. We are doing our checks now. Kindly retry and "
-                                        "check on your end too"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        course = self.get_object(pk)
+        for k, v in request.data.items():
+            cf = CourseFiles(
+                course=course,
+                module=k
+            )
+            cf.save()
+            links = [link for link in v]
+            cf.add_link(links)
+            cf.save()
+        return Response({'details': 'OK'}, status=status.HTTP_200_OK)
 
     def get(self, request, pk):
         course = self.get_object(pk)
